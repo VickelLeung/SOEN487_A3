@@ -5,7 +5,12 @@ class Homepage extends PureComponent {
   render() {
     return (
       <Wrapper>
-        <Title>Welcome to Financepify</Title>
+        <Container>
+          <Title>Welcome to Financeshipfy</Title>
+          <Description>
+            Keep track of your stock and convert any currency on the fly
+          </Description>
+        </Container>
       </Wrapper>
     );
   }
@@ -19,10 +24,20 @@ const Title = styled.h2`
   font-size: 2em;
 `;
 
+const Description = styled.div`
+  color: white;
+`;
+
+const Container = styled.div``;
+
 const Wrapper = styled.div`
   height: 100vh;
   text-align: center;
   border: 0.5px solid;
+  flex-diretion: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: linear-gradient(
       323deg,
       rgba(255, 255, 255, 0.01) 0%,

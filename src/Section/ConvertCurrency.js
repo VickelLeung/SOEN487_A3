@@ -6,44 +6,98 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import axios from "axios";
 
 class ConvertCurrency extends PureComponent {
+  state = {
+    amount: "",
+    fromCurrency: "",
+    toCurrency: ""
+  };
+
+  componentDidMount = () => {
+    axios
+      .get("https://soen487a2backend.herokuapp.com/API/convert_currency")
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  convertCurrency = () => {};
+
+  setFromCurrency = currency => {
+    this.setState({ FromCurrency: currency });
+  };
+
+  setToCurrency = currency => {
+    this.setState({ toCurrency: currency });
+  };
+
   render() {
     return (
       <Wrapper>
-        <Title>Currency converter</Title>
         <ContentContainer>
+          <Title>Currency converter</Title>
           <FormContainer>
-            <TextField label="Amount" />
+            <TextField
+              label="Amount"
+              onChange={e => {
+                this.setState({ amount: e.target.value });
+              }}
+            />
 
             <FormControl>
               <InputLabel>From</InputLabel>
               <FromInput
-              // value={age}
-              //   onChange={handleChange}
+                // value={age}
+                value={this.state.fromCurrency}
+                //   onChange={handleChange}
               >
-                <MenuItem value={10}>CAD</MenuItem>
-                <MenuItem value={20}>USD</MenuItem>
-                <MenuItem value={30}>EURO</MenuItem>
-                <MenuItem value={30}>GDPB</MenuItem>
+                <MenuItem onClick={() => this.setFromCurrency("CADSD")}>
+                  CAD
+                </MenuItem>
+                <MenuItem onClick={() => this.setFromCurrency("USD")}>
+                  USD
+                </MenuItem>
+                <MenuItem onClick={() => this.setFromCurrency("EURO")}>
+                  EURO
+                </MenuItem>
+                <MenuItem onClick={() => this.setFromCurrency("GDPB")}>
+                  GDPB
+                </MenuItem>
               </FromInput>
             </FormControl>
 
             <FormControl>
               <InputLabel>To</InputLabel>
               <FromInput
-              // value={age}
-              //   onChange={handleChange}
+                value={this.state.toCurrency}
+                // onChange={handleChange}
               >
-                <MenuItem value={10}>CAD</MenuItem>
-                <MenuItem value={20}>USD</MenuItem>
-                <MenuItem value={30}>EURO</MenuItem>
-                <MenuItem value={30}>GDPB</MenuItem>
+                <MenuItem onClick={() => this.setToCurrency("CAD")}>
+                  CAD
+                </MenuItem>
+                <MenuItem onClick={() => this.setToCurrency("USD")}>
+                  USD
+                </MenuItem>
+                <MenuItem onClick={() => this.setToCurrency("EURO")}>
+                  EURO
+                </MenuItem>
+                <MenuItem onClick={() => this.setToCurrency("GDPB")}>
+                  GDPB
+                </MenuItem>
               </FromInput>
             </FormControl>
           </FormContainer>
 
-          <SubmitBtn variant="contained">Primary</SubmitBtn>
+          <SubmitBtn onClick={this.convertCurrency} variant="contained">
+            Primary
+          </SubmitBtn>
+          {this.state.fromCurrency}
+          {this.state.toCurrency}
         </ContentContainer>
       </Wrapper>
     );
@@ -52,7 +106,9 @@ class ConvertCurrency extends PureComponent {
 
 export { ConvertCurrency };
 
-const Title = styled.div``;
+const Title = styled.div`
+  margin: 5% 0;
+`;
 
 const ContentContainer = styled.div`
   display: flex;
@@ -78,6 +134,8 @@ const SubmitBtn = styled(Button)`
 `;
 
 const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
   height: 50vh;
   text-align: center;
   background: linear-gradient(

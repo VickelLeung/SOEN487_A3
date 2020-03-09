@@ -5,13 +5,15 @@ import "./App.css";
 import { Homepage } from "./Section/Homepage";
 import { Navigation } from "./component/Navigation/Navigation";
 import { ConvertCurrency } from "./Section/ConvertCurrency";
+import { Footer } from "./Section/Footer";
 
 function App() {
   return (
     <Wrapper>
-      <Navigation />
+      {/* <Navigation /> */}
       <Homepage />
       <ConvertCurrency />
+      <Footer />
     </Wrapper>
   );
 }
