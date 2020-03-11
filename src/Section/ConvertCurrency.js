@@ -20,6 +20,8 @@ class ConvertCurrency extends PureComponent {
       .get("https://soen487a2backend.herokuapp.com/API/convert_currency")
       .then(res => {
         console.log(res.data);
+        this.setState({ amount: res.data });
+        console.log(this.state.amount.USD_PHP);
       })
       .catch(err => {
         console.log(err);
