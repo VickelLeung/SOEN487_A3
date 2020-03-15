@@ -7,35 +7,71 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import axios from "axios";
+import getSymbolFromCurrency from "currency-symbol-map";
+
+import { Results } from "../component/Results/Results";
+
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import SyncAltIcon from "@material-ui/icons/SyncAlt";
+
+import Currencies from "../services/Currencies";
 
 class ConvertCurrency extends PureComponent {
   state = {
-    amount: "",
-    fromCurrency: "",
-    toCurrency: ""
+    amount: 0,
+    fromCurrency: 0,
+    toCurrency: "",
+    fetchedCurrency: "",
+    total: 0,
+    isSaved: false, //save to cache if true
+    listOfCurrencies: [],
+    isDisplayResults: false
   };
 
   componentDidMount = () => {
-    axios
-      .get("https://soen487a2backend.herokuapp.com/API/convert_currency")
-      .then(res => {
-        console.log(res.data);
-        this.setState({ amount: res.data });
-        console.log(this.state.amount.USD_PHP);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    let tempArr = this.state.listOfCurrencies.concat(Currencies.Currencies);
+    this.setState({ listOfCurrencies: tempArr });
   };
 
-  convertCurrency = () => {};
+  fetchCurrency = async () => {
+    let getFromCurrency = this.state.fromCurrency;
+    let getToCurrency = this.state.toCurrency;
+    let res = await axios.get(
+      "https://soen487a2backend.herokuapp.com/API/convert_currency?from_currency=" +
+        getFromCurrency +
+        "&to_currency=" +
+        getToCurrency
+    );
 
-  setFromCurrency = currency => {
-    this.setState({ FromCurrency: currency });
+    let data = res.data;
+    console.log(data);
+    this.setState({ fetchedCurrency: Object.values(data) });
   };
 
-  setToCurrency = currency => {
-    this.setState({ toCurrency: currency });
+  convertCurrency = async () => {
+    await this.fetchCurrency();
+
+    let results = Math.round(
+      this.state.amount * this.state.fetchedCurrency[0]
+    ).toFixed(2);
+
+    // console.log(results);
+    this.setState({ total: results, isDisplayResults: true });
+  };
+
+  handleFromCurrency = e => {
+    console.log(e);
+    this.setState({ fromCurrency: e.target.value });
+  };
+
+  handleToCurrency = e => {
+    this.setState({ toCurrency: e.target.value });
+  };
+
+  switchCurrency = () => {
+    let tempTo = this.state.fromCurrency;
+    let tempFrom = this.state.toCurrency;
+    this.setState({ toCurrency: tempTo, fromCurrency: tempFrom });
   };
 
   render() {
@@ -43,64 +79,69 @@ class ConvertCurrency extends PureComponent {
       <Wrapper>
         <ContentContainer>
           <Title>Currency converter</Title>
+          <TextField
+            label="Amount"
+            type="number"
+            min="0"
+            onChange={e => {
+              this.setState({ amount: e.target.value });
+            }}
+          />
           <FormContainer>
-            <TextField
-              label="Amount"
-              onChange={e => {
-                this.setState({ amount: e.target.value });
-              }}
-            />
-
             <FormControl>
               <InputLabel>From</InputLabel>
               <FromInput
-                // value={age}
                 value={this.state.fromCurrency}
-                //   onChange={handleChange}
+                onChange={this.handleFromCurrency}
               >
-                <MenuItem onClick={() => this.setFromCurrency("CADSD")}>
-                  CAD
-                </MenuItem>
-                <MenuItem onClick={() => this.setFromCurrency("USD")}>
-                  USD
-                </MenuItem>
-                <MenuItem onClick={() => this.setFromCurrency("EURO")}>
-                  EURO
-                </MenuItem>
-                <MenuItem onClick={() => this.setFromCurrency("GDPB")}>
-                  GDPB
-                </MenuItem>
+                {this.state.listOfCurrencies.map((item, index) => {
+                  return (
+                    <MenuItem value={item.id} key={index}>
+                      {item.id}
+                      {getSymbolFromCurrency(item.id)}
+                      <Names>{item.currencyName}</Names>
+                    </MenuItem>
+                  );
+                })}
               </FromInput>
             </FormControl>
+
+            <Button onClick={this.switchCurrency}>
+              <SyncAltIcon />
+            </Button>
 
             <FormControl>
               <InputLabel>To</InputLabel>
               <FromInput
                 value={this.state.toCurrency}
-                // onChange={handleChange}
+                onChange={this.handleToCurrency}
               >
-                <MenuItem onClick={() => this.setToCurrency("CAD")}>
-                  CAD
-                </MenuItem>
-                <MenuItem onClick={() => this.setToCurrency("USD")}>
-                  USD
-                </MenuItem>
-                <MenuItem onClick={() => this.setToCurrency("EURO")}>
-                  EURO
-                </MenuItem>
-                <MenuItem onClick={() => this.setToCurrency("GDPB")}>
-                  GDPB
-                </MenuItem>
+                {this.state.listOfCurrencies.map((item, index) => {
+                  return (
+                    <MenuItem value={item.id} key={index}>
+                      {item.id}
+                      {getSymbolFromCurrency(item.id)}
+                      <Names>{item.currencyName}</Names>
+                    </MenuItem>
+                  );
+                })}
               </FromInput>
             </FormControl>
           </FormContainer>
-
+          {/* {this.state.fromCurrency}
+          {this.state.toCurrency} */}
           <SubmitBtn onClick={this.convertCurrency} variant="contained">
-            Primary
+            Calculate
           </SubmitBtn>
-          {this.state.fromCurrency}
-          {this.state.toCurrency}
         </ContentContainer>
+        {this.state.isDisplayResults ? (
+          <Results
+            total={this.state.total}
+            toCurrency={this.state.toCurrency}
+          />
+        ) : (
+          <div></div>
+        )}
       </Wrapper>
     );
   }
@@ -110,6 +151,7 @@ export { ConvertCurrency };
 
 const Title = styled.div`
   margin: 5% 0;
+  font-size: 2em;
 `;
 
 const ContentContainer = styled.div`
@@ -124,6 +166,7 @@ const FormContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-bottom: 5%;
 `;
 
 const FromInput = styled(Select)`
@@ -135,8 +178,15 @@ const SubmitBtn = styled(Button)`
   width: 30vw;
 `;
 
+const Names = styled.div`
+  margin-left: 4%;
+  font-size: 0.8em;
+  color: #909090;
+`;
+
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: center;
   height: 50vh;
   text-align: center;

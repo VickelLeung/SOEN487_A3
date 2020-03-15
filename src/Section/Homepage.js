@@ -1,5 +1,9 @@
 import React, { PureComponent } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+import { bounce } from "react-animations";
+
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 class Homepage extends PureComponent {
   render() {
@@ -11,12 +15,27 @@ class Homepage extends PureComponent {
             Keep track of your stock and convert any currency on the fly
           </Description>
         </Container>
+        <ArrowIcon style={{ fontSize: 50 }} />
       </Wrapper>
     );
   }
 }
 
 export { Homepage };
+
+// const BouncyDiv = styled.div`
+//   animation: 1s ${bounceAnimation};
+// `;
+
+const bounceAnimation = keyframes`${bounce}`;
+
+const ArrowIcon = styled(ArrowDownwardIcon)`
+  position: absolute;
+  bottom: 6%;
+  color: white;
+
+  animation: infinite 3s ${bounceAnimation};
+`;
 
 const Title = styled.h2`
   color: white;
