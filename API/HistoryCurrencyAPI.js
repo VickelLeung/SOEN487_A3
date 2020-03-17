@@ -1,5 +1,3 @@
-import format from "date-fns/format";
-
 const router = require("express").Router();
 
 router.route("/history_currency").get((req, res) => {
