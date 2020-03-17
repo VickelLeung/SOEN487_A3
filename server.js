@@ -27,9 +27,11 @@ app.get("/", function(req, res) {
 });
 
 app.get("/convert", (req, res) => {});
-
 const convertAPIRoute = require("./API/ConvertAPI");
+const historyAPIRoute = require("./API/HistoryCurrencyAPI");
+
 app.use("/API", convertAPIRoute);
+app.use("/API", historyAPIRoute);
 
 app.listen(port, () => {
   console.log("Server is running on port: " + port);
