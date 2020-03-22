@@ -7,13 +7,12 @@ import { Navigation } from "./component/Navigation/Navigation";
 import { ConvertCurrency } from "./Section/ConvertCurrency";
 import { HistoryCurrency } from "./Section/HistoryCurrency";
 import { Footer } from "./Section/Footer";
+import { ScrollTo } from "react-scroll-to";
 
 function App() {
   return (
     <Wrapper>
-      {/* <Navigation /> */}
       <Homepage />
-      <HistoryCurrency />
       <ConvertCurrency />
       <Footer />
     </Wrapper>

@@ -7,7 +7,7 @@ const Results = props => {
   return (
     <Wrapper>
       <Total>
-        Here is the total {props.total}
+        Here is the total {<Res>{props.total}</Res>}
         {getSymbolFromCurrency(props.toCurrency)}
       </Total>
     </Wrapper>
@@ -17,10 +17,14 @@ const Results = props => {
 export { Results };
 
 const Wrapper = styled.div`
-  margin: 10%;
+  margin: 2%;
   height: 10vh;
 
   border: 1px solid gray;
 `;
 
 const Total = styled.div``;
+
+const Res = styled.span`
+  color: green;
+`;

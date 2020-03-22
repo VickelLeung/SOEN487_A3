@@ -16,6 +16,8 @@ import SyncAltIcon from "@material-ui/icons/SyncAlt";
 
 import Currencies from "../services/Currencies";
 
+import { HistoryCurrency } from ".././Section/HistoryCurrency";
+
 class ConvertCurrency extends PureComponent {
   state = {
     amount: 0,
@@ -62,86 +64,90 @@ class ConvertCurrency extends PureComponent {
   handleFromCurrency = e => {
     console.log(e);
     this.setState({ fromCurrency: e.target.value });
+    this.convertCurrency();
   };
 
   handleToCurrency = e => {
     this.setState({ toCurrency: e.target.value });
+    this.convertCurrency();
   };
 
   switchCurrency = () => {
     let tempTo = this.state.fromCurrency;
     let tempFrom = this.state.toCurrency;
     this.setState({ toCurrency: tempTo, fromCurrency: tempFrom });
+    this.convertCurrency();
   };
 
   render() {
     return (
       <Wrapper>
-        <ContentContainer>
-          <Title>Currency converter</Title>
-          <TextField
-            label="Amount"
-            type="number"
-            min="0"
-            onChange={e => {
-              this.setState({ amount: e.target.value });
-            }}
-          />
-          <FormContainer>
-            <FormControl>
-              <InputLabel>From</InputLabel>
-              <FromInput
-                value={this.state.fromCurrency}
-                onChange={this.handleFromCurrency}
-              >
-                {this.state.listOfCurrencies.map((item, index) => {
-                  return (
-                    <MenuItem value={item.id} key={index}>
-                      {item.id}
-                      {getSymbolFromCurrency(item.id)}
-                      <Names>{item.currencyName}</Names>
-                    </MenuItem>
-                  );
-                })}
-              </FromInput>
-            </FormControl>
+        <MainWrapper>
+          <ContentContainer>
+            <Title>Currency converter</Title>
+            {this.state.isDisplayResults ? (
+              <Results
+                total={this.state.total}
+                toCurrency={this.state.toCurrency}
+              />
+            ) : (
+              <div></div>
+            )}
+            <TextField
+              label="Amount"
+              type="number"
+              min="0"
+              onChange={e => {
+                this.setState({ amount: e.target.value });
+              }}
+            />
+            <FormContainer>
+              <FormControl>
+                <InputLabel>From</InputLabel>
+                <FromInput
+                  value={this.state.fromCurrency}
+                  onChange={this.handleFromCurrency}
+                >
+                  {this.state.listOfCurrencies.map((item, index) => {
+                    return (
+                      <MenuItem value={item.id} key={index}>
+                        {item.id}
+                        <Symbols>[{getSymbolFromCurrency(item.id)}]</Symbols>
+                        <Names>{item.currencyName}</Names>
+                      </MenuItem>
+                    );
+                  })}
+                </FromInput>
+              </FormControl>
 
-            <Button onClick={this.switchCurrency}>
-              <SyncAltIcon />
-            </Button>
+              <Button onClick={this.switchCurrency}>
+                <SyncAltIcon />
+              </Button>
 
-            <FormControl>
-              <InputLabel>To</InputLabel>
-              <FromInput
-                value={this.state.toCurrency}
-                onChange={this.handleToCurrency}
-              >
-                {this.state.listOfCurrencies.map((item, index) => {
-                  return (
-                    <MenuItem value={item.id} key={index}>
-                      {item.id}
-                      {getSymbolFromCurrency(item.id)}
-                      <Names>{item.currencyName}</Names>
-                    </MenuItem>
-                  );
-                })}
-              </FromInput>
-            </FormControl>
-          </FormContainer>
-          {/* {this.state.fromCurrency}
-          {this.state.toCurrency} */}
-          <SubmitBtn onClick={this.convertCurrency} variant="contained">
-            Calculate
-          </SubmitBtn>
-        </ContentContainer>
-        {this.state.isDisplayResults ? (
-          <Results
-            total={this.state.total}
-            toCurrency={this.state.toCurrency}
-          />
-        ) : (
-          <div></div>
-        )}
+              <FormControl>
+                <InputLabel>To</InputLabel>
+                <FromInput
+                  value={this.state.toCurrency}
+                  onChange={this.handleToCurrency}
+                >
+                  {this.state.listOfCurrencies.map((item, index) => {
+                    return (
+                      <MenuItem value={item.id} key={index}>
+                        {item.id}
+                        <Symbols>[{getSymbolFromCurrency(item.id)}]</Symbols>
+                        <Names>{item.currencyName}</Names>
+                      </MenuItem>
+                    );
+                  })}
+                </FromInput>
+              </FormControl>
+            </FormContainer>
+            {/* <SubmitBtn onClick={this.convertCurrency} variant="contained">
+              Calculate
+            </SubmitBtn> */}
+          </ContentContainer>
+          <HistoryCurrency currencyName={this.state.toCurrency} />
+        </MainWrapper>
       </Wrapper>
     );
   }
@@ -152,6 +158,11 @@ export { ConvertCurrency };
 const Title = styled.div`
   margin: 5% 0;
   font-size: 2em;
+`;
+
+const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const ContentContainer = styled.div`
@@ -178,6 +189,10 @@ const SubmitBtn = styled(Button)`
   width: 30vw;
 `;
 
+const Symbols = styled.span`
+  margin: 2%;
+`;
+
 const Names = styled.div`
   margin-left: 4%;
   font-size: 0.8em;
@@ -188,7 +203,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 50vh;
+  height: 100vh;
   text-align: center;
   background: linear-gradient(
       135deg,
