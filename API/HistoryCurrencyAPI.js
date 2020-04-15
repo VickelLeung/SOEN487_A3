@@ -1,29 +1,74 @@
-// const router = require("express").Router();
+var schedule = require("node-schedule");
+var needle = require("needle");
+const express = require("express");
+const route = express.Router();
 
-// router.route("/history_currency").get((req, res) => {
-//   let symbols = req.query.symbols;
-//   let end_at = req.query.end_at;
-//   let start_at = req.query.start_at;
+const cors = require("cors");
 
-//   console.log("from " + start_at);
-//   console.log("to " + end_at);
+const Currency = require("../Model/currency");
 
-//   //convert currency
-//   const rp = require("request-promise");
-//   rp(
-//     "https://api.exchangeratesapi.io/history?start_at=" +
-//       start_at +
-//       "&end_at=" +
-//       end_at +
-//       "&symbols=" +
-//       symbols
-//   )
-//     .then(body => {
-//       return res.send(body);
-//     })
-//     .catch(err => {
-//       res.send(err);
-//     });
-// });
+route.use(cors());
 
-// module.exports = router;
+// run everyday at midnight 0 0 * * *   */1 * * * *
+schedule.scheduleJob("0 0 * * *", () => {
+  console.log("test");
+  needle.post(
+    "http://localhost:3001/api/add_currency_history",
+    (error, response) => {
+      if (!error && response.statusCode == 200) {
+      } else {
+        console.log(error);
+      }
+    }
+  );
+});
+
+route.post("/add_currency_history", (req, res) => {
+  console.log("inside");
+
+  const rp = require("request-promise");
+  rp(process.env.apiLink).then((body) => {
+    let jObj = JSON.parse(body);
+
+    let getSize = Object.keys(jObj.rates).length;
+
+    let rates = [];
+
+    for (let i = 0; i < getSize; i++) {
+      let rate = {};
+      rate.currencyType = Object.keys(jObj.rates)[i];
+      rate.currencyRate = Object.values(jObj.rates)[i];
+      rates.push(rate);
+    }
+    console.log(rates);
+
+    const date = jObj.date;
+    const newCurrency = new Currency({
+      date,
+      rates,
+    });
+
+    newCurrency
+      .save()
+      .then((item) => res.json(item))
+      .catch((err) => res.status(400).json("Error: " + err));
+  });
+});
+
+route.get("/currency_history", (req, res) => {
+  const date = req.params.type;
+  console.log("test" + type);
+
+  Currency.find({
+    rates: { currencyType: "CAD" },
+  })
+    .then((results) => {
+      console.log("good: " + results);
+      res.json(results);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+module.exports = route;

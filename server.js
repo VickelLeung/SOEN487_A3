@@ -28,9 +28,11 @@ app.get("/", function (req, res) {
 
 // const currencyAPIRoute = require("./API/currency");
 
-const currencyRoute = require("./API/currency");
-app.use("/api", currencyRoute);
-// app.use("/api", currencyAPIRoute);
+const historyRoute = require("./API/historyCurrencyAPI");
+app.use("/api", historyRoute);
+
+const latestRoute = require("./API/latestCurrencyAPI");
+app.use("/api", latestRoute);
 
 app.listen(port, () => {
   console.log("Server is running on port: " + port);

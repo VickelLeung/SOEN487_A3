@@ -1,30 +1,33 @@
 var schedule = require("node-schedule");
 var needle = require("needle");
 const express = require("express");
-const currency = express.Router();
+const route = express.Router();
 
 const cors = require("cors");
 
-let Currency = require("../Model/currency");
+const Latest = require("../Model/currency_latest");
 
-currency.use(cors());
+route.use(cors());
 
 // run everyday at midnight 0 0 * * *   */1 * * * *
 schedule.scheduleJob("0 0 * * *", () => {
   console.log("test");
-  needle.post("http://localhost:3001/api/add_currency", (error, response) => {
-    if (!error && response.statusCode == 200) {
-    } else {
-      console.log(error);
+  needle.put(
+    "http://localhost:3001/api/add_currency_latest",
+    (error, response) => {
+      if (!error && response.statusCode == 200) {
+      } else {
+        console.log(error);
+      }
     }
-  });
+  );
 });
 
-currency.post("/add_currency", (req, res) => {
+route.put("/add_currency_latest", (req, res) => {
   console.log("inside");
 
   const rp = require("request-promise");
-  rp("https://api.exchangeratesapi.io/latest").then((body) => {
+  rp(process.env.apiLink).then((body) => {
     let jObj = JSON.parse(body);
 
     let getSize = Object.keys(jObj.rates).length;
@@ -39,24 +42,21 @@ currency.post("/add_currency", (req, res) => {
     }
     console.log(rates);
 
-    const date = jObj.date;
-    const newCurrency = new Currency({
-      date,
+    const newLatest = Latest({
       rates,
     });
-
-    newCurrency
+    newLatest
       .save()
       .then((item) => res.json(item))
       .catch((err) => res.status(400).json("Error: " + err));
   });
 });
 
-currency.get("/currency", (req, res) => {
+route.get("/currency_latest", (req, res) => {
   const type = req.params.type;
   console.log("test" + type);
 
-  Currency.find({
+  Latest.find({
     rates: { currencyType: "CAD" },
   })
     .then((results) => {
@@ -68,4 +68,4 @@ currency.get("/currency", (req, res) => {
     });
 });
 
-module.exports = currency;
+module.exports = route;
