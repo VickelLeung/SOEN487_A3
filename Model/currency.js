@@ -10,6 +10,6 @@ const historySchema = new Schema({
   },
 });
 
-const History = mongoose.model("User", historySchema);
+const History = mongoose.model("history", historySchema);
 
 module.exports = History;

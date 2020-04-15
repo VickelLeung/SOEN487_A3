@@ -26,12 +26,10 @@ app.get("/", function (req, res) {
   res.send("hello world : " + process.env.apikey);
 });
 
-// const currencyAPIRoute = require("./API/currency");
-
-const historyRoute = require("./API/historyCurrencyAPI");
+const historyRoute = require("./SytemCore/historyCurrencyAPI");
 app.use("/api", historyRoute);
 
-const latestRoute = require("./API/latestCurrencyAPI");
+const latestRoute = require("./SytemCore/latestCurrencyAPI");
 app.use("/api", latestRoute);
 
 app.listen(port, () => {

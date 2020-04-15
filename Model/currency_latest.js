@@ -9,6 +9,6 @@ const latestSchema = new Schema({
   },
 });
 
-const Latest = mongoose.model("Post", latestSchema);
+const Latest = mongoose.model("latest", latestSchema);
 
 module.exports = Latest;
