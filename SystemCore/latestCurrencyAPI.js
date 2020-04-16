@@ -5,7 +5,7 @@ const route = express.Router();
 
 const cors = require("cors");
 
-const Latest = require("../Model/currency_latest");
+const Latest = require("../Model/latest.js");
 
 route.use(cors());
 
@@ -24,7 +24,7 @@ schedule.scheduleJob("0 0 * * *", () => {
 });
 
 route.put("/add_currency_latest", (req, res) => {
-  console.log("inside");
+  console.log("inside latest");
 
   const rp = require("request-promise");
   rp(process.env.apiLink).then((body) => {
@@ -53,14 +53,21 @@ route.put("/add_currency_latest", (req, res) => {
 });
 
 route.get("/currency_latest", (req, res) => {
-  const type = req.params.type;
+  const type = req.query.type;
   console.log("test" + type);
 
-  Latest.find({
-    rates: { currencyType: "CAD" },
-  })
+  Latest.find(
+    {},
+    {
+      rates: {
+        $elemMatch: {
+          currencyType: type,
+        },
+      },
+    }
+  )
     .then((results) => {
-      console.log("good: " + results);
+      // console.log("good: ");
       res.json(results);
     })
     .catch((err) => {

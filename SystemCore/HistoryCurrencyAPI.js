@@ -5,7 +5,7 @@ const route = express.Router();
 
 const cors = require("cors");
 
-const Currency = require("../Model/currency");
+const History = require("../Model/history.js");
 
 route.use(cors());
 
@@ -24,10 +24,11 @@ schedule.scheduleJob("0 0 * * *", () => {
 });
 
 route.post("/add_currency_history", (req, res) => {
-  console.log("inside");
+  console.log("inside history");
 
   const rp = require("request-promise");
   rp(process.env.apiLink).then((body) => {
+    console.log(body);
     let jObj = JSON.parse(body);
 
     let getSize = Object.keys(jObj.rates).length;
@@ -40,27 +41,33 @@ route.post("/add_currency_history", (req, res) => {
       rate.currencyRate = Object.values(jObj.rates)[i];
       rates.push(rate);
     }
-    console.log(rates);
+    // console.log(rates);
 
     const date = jObj.date;
-    const newCurrency = new Currency({
+    // console.log("date: " + date);
+    const newHistory = new History({
       date,
       rates,
     });
+    // console.log("r: " + rates);
+    // console.log("N: " + newHistory.date + " " + newHistory.rates);
 
-    newCurrency
+    newHistory
       .save()
-      .then((item) => res.json(item))
+      .then((item) => {
+        console.log("Good: " + item);
+        res.json(item);
+      })
       .catch((err) => res.status(400).json("Error: " + err));
   });
 });
 
 route.get("/currency_history", (req, res) => {
-  const date = req.params.type;
-  console.log("test" + type);
+  const date = req.query.date;
+  console.log("test" + date);
 
-  Currency.find({
-    rates: { currencyType: "CAD" },
+  History.find({
+    date: date,
   })
     .then((results) => {
       console.log("good: " + results);
