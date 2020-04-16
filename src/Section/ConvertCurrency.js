@@ -27,7 +27,7 @@ class ConvertCurrency extends PureComponent {
     total: 0,
     isSaved: false, //save to cache if true
     listOfCurrencies: [],
-    isDisplayResults: false
+    isDisplayResults: false,
   };
 
   componentDidMount = () => {
@@ -61,13 +61,13 @@ class ConvertCurrency extends PureComponent {
     this.setState({ total: results, isDisplayResults: true });
   };
 
-  handleFromCurrency = e => {
+  handleFromCurrency = (e) => {
     console.log(e);
     this.setState({ fromCurrency: e.target.value });
     this.convertCurrency();
   };
 
-  handleToCurrency = e => {
+  handleToCurrency = (e) => {
     this.setState({ toCurrency: e.target.value });
     this.convertCurrency();
   };
@@ -97,7 +97,7 @@ class ConvertCurrency extends PureComponent {
               label="Amount"
               type="number"
               min="0"
-              onChange={e => {
+              onChange={(e) => {
                 this.setState({ amount: e.target.value });
               }}
             />

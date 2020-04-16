@@ -5,63 +5,28 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
-  Tooltip
+  Tooltip,
 } from "recharts";
 import styled from "styled-components";
-import Axios from "axios";
+// import Axios from "axios";
 
-import format from "date-fns/format";
-import subDays from "date-fns/subDays";
+// import format from "date-fns/format";
+// import subDays from "date-fns/subDays";
+
+import { chartCurrency } from "../../WebServiceAPI/WebServiceAPI";
 
 class ChartCurrency extends PureComponent {
   state = {
     name: [],
     val: [],
     data: [],
-    currencyName: ""
+    currencyName: "",
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    console.log("test");
-    let toD = format(new Date(), "yyyy-MM-dd");
-    let fromD = format(subDays(new Date(), 30), "yyyy-MM-dd");
-
-    let url =
-      "https://soen487a2backend.herokuapp.com/API/history_currency?start_at=" +
-      fromD +
-      "&end_at=" +
-      toD +
-      "&symbols=" +
-      this.props.currency;
-
-    if (prevProps.currency !== this.props.currency) {
-      console.log(url);
-      Axios.get(url)
-        .then(res => {
-          let keys = [];
-          keys = res.data.rates;
-
-          console.log(keys);
-          console.log(Object.keys(keys));
-          console.log(Object.values(keys));
-          this.setState({ name: Object.keys(keys), val: Object.values(keys) });
-
-          let newData = [];
-          for (let i = 0; i < this.state.name.length; i++) {
-            let temp = {};
-            temp.name = this.state.name[i];
-            temp.uv = Object.values(this.state.val[i]);
-            newData.push(temp);
-          }
-
-          this.setState({ data: newData });
-
-          console.log(this.state.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+    let Obj = chartCurrency(prevProps, prevState, this.props.currency);
+    console.log("test: " + Obj);
+    // this.setState({ name: Obj.name, val: Obj.val, data: Obj.data });
   };
 
   render() {
