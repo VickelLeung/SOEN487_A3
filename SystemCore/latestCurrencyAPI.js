@@ -67,7 +67,7 @@ route.get("/currency_latest", (req, res) => {
     }
   )
     .then((results) => {
-      // console.log("good: ");
+      console.log("resuls: ");
       res.json(results);
     })
     .catch((err) => {

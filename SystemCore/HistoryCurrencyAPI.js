@@ -62,12 +62,32 @@ route.post("/add_currency_history", (req, res) => {
   });
 });
 
-route.get("/currency_history", (req, res) => {
+route.get("/currency_history_date", (req, res) => {
   const date = req.query.date;
   console.log("test" + date);
 
   History.find({
     date: date,
+  })
+    .then((results) => {
+      console.log("good: " + results);
+      res.json(results);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+route.get("/currency_history", (req, res) => {
+  const currency = req.query.currency;
+  console.log("test" + currency);
+
+  History.find({
+    rates: {
+      $elemMatch: {
+        currencyType: currency,
+      },
+    },
   })
     .then((results) => {
       console.log("good: " + results);
