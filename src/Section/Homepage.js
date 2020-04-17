@@ -3,9 +3,15 @@ import styled, { keyframes } from "styled-components";
 
 import { bounce } from "react-animations";
 
+import FacebookLogin from "react-facebook-login";
+
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 class Homepage extends PureComponent {
+  responseFacebook = (response) => {
+    console.log(response);
+  };
+
   render() {
     return (
       <Wrapper>
@@ -14,7 +20,15 @@ class Homepage extends PureComponent {
           <Description>
             Keep track of your stock and convert any currency on the fly
           </Description>
+          <FacebookLogin
+            appId="832027567293623"
+            autoLoad={true}
+            fields="name,email,picture"
+            //onClick={componentClicked}
+            //callback={responseFacebook}
+          />
         </Container>
+
         <ArrowIcon style={{ fontSize: 50 }} />
       </Wrapper>
     );
