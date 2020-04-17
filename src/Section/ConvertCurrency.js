@@ -35,16 +35,18 @@ class ConvertCurrency extends PureComponent {
     this.setState({ listOfCurrencies: tempArr });
   };
 
+  //"https://soen487a2backend.herokuapp.com/API/convert_currency?from_currency=" +
+  //   getFromCurrency +
+  //   "&to_currency=" +
+  //   getToCurrency
+
   fetchCurrency = async () => {
     let getFromCurrency = this.state.fromCurrency;
     let getToCurrency = this.state.toCurrency;
     let res = await axios.get(
-      "https://soen487a2backend.herokuapp.com/API/convert_currency?from_currency=" +
-        getFromCurrency +
-        "&to_currency=" +
-        getToCurrency
+      "https://soen487a2backend.herokuapp.com/api/currency_latest?type=" +
+        getFromCurrency
     );
-
     let data = res.data;
     console.log(data);
     this.setState({ fetchedCurrency: Object.values(data) });
@@ -142,9 +144,9 @@ class ConvertCurrency extends PureComponent {
                 </FromInput>
               </FormControl>
             </FormContainer>
-            {/* <SubmitBtn onClick={this.convertCurrency} variant="contained">
+            <SubmitBtn onClick={this.convertCurrency} variant="contained">
               Calculate
-            </SubmitBtn> */}
+            </SubmitBtn>
           </ContentContainer>
           <HistoryCurrency currencyName={this.state.toCurrency} />
         </MainWrapper>
