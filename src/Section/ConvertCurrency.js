@@ -18,11 +18,18 @@ import Currencies from "../services/Currencies";
 
 import { HistoryCurrency } from ".././Section/HistoryCurrency";
 
+import {
+  fetchCurrency,
+  calculateResults,
+} from "../WebServiceAPI/WebServiceAPI";
+
 class ConvertCurrency extends PureComponent {
   state = {
     amount: 0,
-    fromCurrency: 0,
+    fromCurrency: "",
+    fromCurrencyVal: 0,
     toCurrency: "",
+    toCurrencyVal: 0,
     fetchedCurrency: "",
     total: 0,
     isSaved: false, //save to cache if true
@@ -35,50 +42,38 @@ class ConvertCurrency extends PureComponent {
     this.setState({ listOfCurrencies: tempArr });
   };
 
-  //"https://soen487a2backend.herokuapp.com/API/convert_currency?from_currency=" +
-  //   getFromCurrency +
-  //   "&to_currency=" +
-  //   getToCurrency
-
-  fetchCurrency = async () => {
-    let getFromCurrency = this.state.fromCurrency;
-    let getToCurrency = this.state.toCurrency;
-    let res = await axios.get(
-      "https://soen487a2backend.herokuapp.com/api/currency_latest?type=" +
-        getFromCurrency
-    );
-    let data = res.data;
-    console.log(data);
-    this.setState({ fetchedCurrency: Object.values(data) });
-  };
-
   convertCurrency = async () => {
-    await this.fetchCurrency();
-
-    let results = Math.round(
-      this.state.amount * this.state.fetchedCurrency[0]
-    ).toFixed(2);
-
-    // console.log(results);
+    await fetchCurrency(this.state.fromCurrency, this.state.toCurrency).then(
+      (results) => {
+        console.log(results);
+        this.setState({
+          fromCurrencyVal: results.fromCurrency,
+          toCurrencyVal: results.toCurrency,
+        });
+      }
+    );
+    //console.log(this.state.fromCurrencyVal + " " + this.state.toCurrencyVal);
+    let results = calculateResults(
+      this.state.amount,
+      this.state.fromCurrencyVal,
+      this.state.toCurrencyVal
+    );
     this.setState({ total: results, isDisplayResults: true });
   };
 
   handleFromCurrency = (e) => {
     console.log(e);
     this.setState({ fromCurrency: e.target.value });
-    this.convertCurrency();
   };
 
   handleToCurrency = (e) => {
     this.setState({ toCurrency: e.target.value });
-    this.convertCurrency();
   };
 
   switchCurrency = () => {
     let tempTo = this.state.fromCurrency;
     let tempFrom = this.state.toCurrency;
     this.setState({ toCurrency: tempTo, fromCurrency: tempFrom });
-    this.convertCurrency();
   };
 
   render() {
@@ -86,6 +81,8 @@ class ConvertCurrency extends PureComponent {
       <Wrapper>
         <MainWrapper>
           <ContentContainer>
+            {this.state.fromCurrency + " " + this.state.toCurrency}
+            {this.state.total}
             <Title>Currency converter</Title>
             {this.state.isDisplayResults ? (
               <Results
@@ -148,7 +145,7 @@ class ConvertCurrency extends PureComponent {
               Calculate
             </SubmitBtn>
           </ContentContainer>
-          <HistoryCurrency currencyName={this.state.toCurrency} />
+          {/* <HistoryCurrency currencyName={this.state.toCurrency} /> */}
         </MainWrapper>
       </Wrapper>
     );

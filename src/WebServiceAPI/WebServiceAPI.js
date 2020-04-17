@@ -59,4 +59,32 @@ export const chartCurrency = (prevProps, prevState, currency) => {
   }
 };
 
-export const getCurrency = () => {};
+export const fetchCurrency = async (fromCurrency, toCurrency) => {
+  let res = await Axios.get(
+    "https://soen487a2backend.herokuapp.com/api/currency_latest?type=" +
+      fromCurrency
+  );
+  let data = res.data;
+  console.log(data);
+
+  let res1 = await Axios.get(
+    "https://soen487a2backend.herokuapp.com/api/currency_latest?type=" +
+      toCurrency
+  );
+  let data1 = res1.data;
+  console.log(data1);
+
+  // this.setState({
+  //   fromCurrency: data[0].rates[0].currencyRate,
+  //   toCurrency: data1[0].rates[0].currencyRate,
+  // });
+  let obj = {};
+  obj.fromCurrency = data[0].rates[0].currencyRate;
+  obj.toCurrency = data1[0].rates[0].currencyRate;
+  return obj;
+};
+
+export const calculateResults = (amount, fromCurrency, toCurrency) => {
+  let results = (amount / fromCurrency) * toCurrency;
+  return results;
+};
