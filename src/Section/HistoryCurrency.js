@@ -1,7 +1,9 @@
 import React, { PureComponent } from "react";
 import styled from "styled-components";
 
-import { ChartCurrency } from ".././component/ChartCurrency/ChartCurrency";
+import { HistoricTable } from "../component/HistoricTable/HistoricTable";
+
+// import { ChartCurrency } from ".././component/ChartCurrency/ChartCurrency";
 
 class HistoryCurrency extends PureComponent {
   render() {
@@ -9,7 +11,9 @@ class HistoryCurrency extends PureComponent {
       <div>
         <Container>
           <Title>History of Currency</Title>
-          <ChartCurrency currency={this.props.currencyName} />
+          {/*  <ChartCurrency currency={this.props.currencyName} /> */}
+
+          <HistoricTable />
         </Container>
       </div>
     );

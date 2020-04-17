@@ -16,8 +16,6 @@ import SyncAltIcon from "@material-ui/icons/SyncAlt";
 
 import Currencies from "../services/Currencies";
 
-import { HistoryCurrency } from ".././Section/HistoryCurrency";
-
 import {
   fetchCurrency,
   calculateResults,
@@ -52,13 +50,17 @@ class ConvertCurrency extends PureComponent {
         });
       }
     );
-    //console.log(this.state.fromCurrencyVal + " " + this.state.toCurrencyVal);
+
     let results = calculateResults(
       this.state.amount,
       this.state.fromCurrencyVal,
       this.state.toCurrencyVal
     );
-    this.setState({ total: results, isDisplayResults: true });
+
+    this.setState({
+      total: results,
+      isDisplayResults: true,
+    });
   };
 
   handleFromCurrency = (e) => {
@@ -81,17 +83,8 @@ class ConvertCurrency extends PureComponent {
       <Wrapper>
         <MainWrapper>
           <ContentContainer>
-            {this.state.fromCurrency + " " + this.state.toCurrency}
-            {this.state.total}
             <Title>Currency converter</Title>
-            {this.state.isDisplayResults ? (
-              <Results
-                total={this.state.total}
-                toCurrency={this.state.toCurrency}
-              />
-            ) : (
-              <div></div>
-            )}
+
             <TextField
               label="Amount"
               type="number"
@@ -145,7 +138,17 @@ class ConvertCurrency extends PureComponent {
               Calculate
             </SubmitBtn>
           </ContentContainer>
-          {/* <HistoryCurrency currencyName={this.state.toCurrency} /> */}
+          {this.state.isDisplayResults ? (
+            <Results
+              total={this.state.total}
+              toCurrencyVal={this.state.toCurrencyVal}
+              toCurrency={this.state.toCurrency}
+              fromCurrencyVal={this.state.fromCurrencyVal}
+              fromCurrency={this.state.fromCurrency}
+            />
+          ) : (
+            <div></div>
+          )}
         </MainWrapper>
       </Wrapper>
     );
@@ -202,7 +205,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 100vh;
+  height: 50vh;
   text-align: center;
   background: linear-gradient(
       135deg,

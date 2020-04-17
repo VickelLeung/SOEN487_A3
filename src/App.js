@@ -14,6 +14,7 @@ function App() {
     <Wrapper>
       <Homepage />
       <ConvertCurrency />
+      <HistoryCurrency />
       <Footer />
     </Wrapper>
   );

@@ -3,13 +3,25 @@ import React from "react";
 import styled from "styled-components";
 import getSymbolFromCurrency from "currency-symbol-map";
 
-const Results = props => {
+import { findEquivalentDollar } from "../../WebServiceAPI/WebServiceAPI";
+
+const Results = (props) => {
   return (
     <Wrapper>
       <Total>
-        Here is the total {<Res>{props.total}</Res>}
-        {getSymbolFromCurrency(props.toCurrency)}
+        Here is the total{" "}
+        {
+          <Res>
+            {props.total}
+            {getSymbolFromCurrency(props.toCurrency)}
+          </Res>
+        }
       </Total>
+      <EquivalentContainer>
+        1 {props.fromCurrency} ={" "}
+        {findEquivalentDollar(props.fromCurrencyVal, props.toCurrencyVal)}{" "}
+        {props.toCurrency}
+      </EquivalentContainer>
     </Wrapper>
   );
 };
@@ -28,3 +40,5 @@ const Total = styled.div``;
 const Res = styled.span`
   color: green;
 `;
+
+const EquivalentContainer = styled.div``;

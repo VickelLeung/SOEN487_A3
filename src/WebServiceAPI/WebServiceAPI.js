@@ -74,10 +74,6 @@ export const fetchCurrency = async (fromCurrency, toCurrency) => {
   let data1 = res1.data;
   console.log(data1);
 
-  // this.setState({
-  //   fromCurrency: data[0].rates[0].currencyRate,
-  //   toCurrency: data1[0].rates[0].currencyRate,
-  // });
   let obj = {};
   obj.fromCurrency = data[0].rates[0].currencyRate;
   obj.toCurrency = data1[0].rates[0].currencyRate;
@@ -86,5 +82,21 @@ export const fetchCurrency = async (fromCurrency, toCurrency) => {
 
 export const calculateResults = (amount, fromCurrency, toCurrency) => {
   let results = (amount / fromCurrency) * toCurrency;
-  return results;
+  return results.toFixed(2);
+};
+
+export const findEquivalentDollar = (fromCurrency, toCurrency) => {
+  let results = (1 / fromCurrency) * toCurrency;
+  console.log("to: " + toCurrency + "from: " + fromCurrency);
+  console.log(results);
+  return results.toFixed(2);
+};
+
+export const getHistoricData = async (date) => {
+  let res = await Axios.get(
+    "https://soen487a2backend.herokuapp.com/api/currency_history_date?date=" +
+      date
+  );
+
+  return res.data[0];
 };
