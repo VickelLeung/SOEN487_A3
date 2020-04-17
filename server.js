@@ -26,7 +26,7 @@ app.get("/", function (req, res) {
   res.send("hello world : " + process.env.apikey);
 });
 
-const historyRoute = require("./SystemCore/historyCurrencyAPI");
+const historyRoute = require("./SystemCore/HistoryCurrencyAPI");
 app.use("/api", historyRoute);
 
 const latestRoute = require("./SystemCore/latestCurrencyAPI");
