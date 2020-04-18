@@ -97,6 +97,23 @@ export const getHistoricData = async (date) => {
     "https://soen487a2backend.herokuapp.com/api/currency_history_date?date=" +
       date
   );
+  let res2 = await Axios.get(
+    "https://soen487a2backend.herokuapp.com/api/get_all_currency_latest"
+  );
 
+  // res2.data;
+
+  let obj = res.data[0].rates;
+
+  console.log(res2.data[0].rates[0].currencyRate);
+  for (let i = 0; i < obj.length; i++) {
+    obj[i].now = res2.data[0].rates[i].currencyRate;
+
+    let changes = 0;
+    changes = res2.data[0].rates[i].currencyRate - obj[i].currencyRate;
+    obj[i].change = changes.toFixed(4);
+  }
+
+  console.log(obj);
   return res.data[0];
 };

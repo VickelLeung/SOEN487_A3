@@ -83,7 +83,7 @@ class ConvertCurrency extends PureComponent {
       <Wrapper>
         <MainWrapper>
           <ContentContainer>
-            <Title>Currency converter</Title>
+            <Title>Currency Converter</Title>
 
             <TextField
               label="Amount"
@@ -157,7 +157,7 @@ class ConvertCurrency extends PureComponent {
 
 export { ConvertCurrency };
 
-const Title = styled.div`
+const Title = styled.h2`
   margin: 5% 0;
   font-size: 2em;
 `;

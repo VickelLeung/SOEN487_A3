@@ -29,4 +29,6 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Title = styled.h2``;
+const Title = styled.h2`
+  font-size: 2em;
+`;

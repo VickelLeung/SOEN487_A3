@@ -16,9 +16,9 @@ class Homepage extends PureComponent {
     return (
       <Wrapper>
         <Container>
-          <Title>Welcome to Financeshipfy</Title>
+          <Title>Welcome to Currenshipfy</Title>
           <Description>
-            Keep track of your stock and convert any currency on the fly
+            Keep track of your currency and convert any currency on the fly
           </Description>
           {/* <FacebookLogin
             appId="832027567293623"

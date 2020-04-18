@@ -19,11 +19,16 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
+import Skeleton from "@material-ui/lab/Skeleton";
+
 class HistoricTable extends PureComponent {
   state = {
     rows: [],
     selectedDate: null,
-    // displayDate: "",
+  };
+
+  componentDidMount = () => {
+    //getHistoricData();
   };
 
   handleDateChange = (date) => {
@@ -48,18 +53,21 @@ class HistoricTable extends PureComponent {
   render() {
     return (
       <div>
-        <h1>History of dates</h1>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            disableToolbar
-            variant="inline"
-            format="MM/dd/yyyy"
-            margin="normal"
-            value={this.state.selectedDate}
-            onChange={this.handleDateChange}
-          />
-        </MuiPickersUtilsProvider>
-        <Button onClick={this.findDate}>Submit</Button>
+        <InputContainer>
+          <span>Please choose a date</span>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              disableFuture={true}
+              value={this.state.selectedDate}
+              onChange={this.handleDateChange}
+            />
+          </MuiPickersUtilsProvider>
+          <Button onClick={this.findDate}>Submit</Button>
+        </InputContainer>
         <Container>
           {/* {this.state.displayDate == "" ? null : (
             <p>The history from : {this.state.selectedDate}</p>
@@ -67,23 +75,54 @@ class HistoricTable extends PureComponent {
           <TableWrapper component={Paper}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
-                <TableRow>
+                <TableR>
                   <TableCell align="right">Currency Name</TableCell>
-                  <TableCell align="right">Before&nbsp;</TableCell>
-                  <TableCell align="right">Now&nbsp;</TableCell>
-                  <TableCell align="right">Total changes&nbsp;</TableCell>
-                </TableRow>
+                  <TableCell align="right">Before</TableCell>
+                  <TableCell align="right">Today</TableCell>
+                  <TableCell align="right">Changes</TableCell>
+                </TableR>
               </TableHead>
               <TableBody>
-                {this.state.rows.map((row) => (
+                {this.state.rows == [] ? (
                   <TableRow>
-                    <TableCell component="th" scope="row">
-                      {/* {row.name} */}
+                    <TableCell align="right">
+                      <Skeleton animation="wave" />
                     </TableCell>
-                    <TableCell align="right">{row.currencyType}</TableCell>
-                    <TableCell align="right">{row.currencyRate}</TableCell>
+                    <TableCell align="right">
+                      <Skeleton animation="wave" />
+                    </TableCell>
+                    <TableCell align="right">
+                      <Skeleton animation="wave" />
+                    </TableCell>
+                    <TableCell align="right">
+                      <Skeleton animation="wave" />
+                    </TableCell>
                   </TableRow>
-                ))}
+                ) : (
+                  this.state.rows.map((row) => (
+                    <TableRow>
+                      <TableCell
+                        style={{ fontWeight: "bold" }}
+                        component="th"
+                        scope="row"
+                      >
+                        {row.currencyType}
+                      </TableCell>
+                      <TableCell align="right">{row.currencyRate}</TableCell>
+                      <TableCell align="right">{row.now}</TableCell>
+                      <TableCell
+                        style={
+                          row.change >= 0
+                            ? { color: "green" }
+                            : { color: "red" }
+                        }
+                        align="right"
+                      >
+                        {row.change}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </TableWrapper>
@@ -96,8 +135,22 @@ class HistoricTable extends PureComponent {
 export { HistoricTable };
 
 const TableWrapper = styled(TableContainer)`
-  max-height: 50vh;
-  margin: 10% 5%;
+  max-height: 60vh;
+  margin: 10% 0%;
+`;
+
+const TableR = styled(TableRow)`
+  .MuiTableCell-stickyHeader {
+    background: black;
+    color: white;
+  }
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
 `;
 
 const Container = styled.div``;
