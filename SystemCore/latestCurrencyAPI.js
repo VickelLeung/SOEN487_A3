@@ -74,4 +74,18 @@ route.get("/currency_latest", (req, res) => {
     });
 });
 
+route.get("/get_all_currency_latest", (req, res) => {
+  const type = req.query.type;
+  console.log("test" + type);
+
+  Latest.find()
+    .then((results) => {
+      console.log("resuls: ");
+      res.json(results);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
 module.exports = route;
