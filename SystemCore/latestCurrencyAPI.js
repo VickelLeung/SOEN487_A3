@@ -9,11 +9,10 @@ const Latest = require("../Model/latest.js");
 
 route.use(cors());
 
-// run everyday at midnight 0 0 * * *   */1 * * * *
+// run everyday at midnight 0 0 * * *
 schedule.scheduleJob("0 0 * * *", () => {
-  console.log("test");
   needle.put(
-    "http://localhost:3001/api/add_currency_latest",
+    "https://soen487a2backend.herokuapp.com/api/add_currency_latest",
     (error, response) => {
       if (!error && response.statusCode == 200) {
       } else {

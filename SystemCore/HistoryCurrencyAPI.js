@@ -9,11 +9,11 @@ const History = require("../Model/history.js");
 
 route.use(cors());
 
-// run everyday at midnight 0 0 * * *   */1 * * * *
+// run everyday at midnight 0 0 * * *
 schedule.scheduleJob("0 0 * * *", () => {
   console.log("test");
   needle.post(
-    "http://localhost:3001/api/add_currency_history",
+    "https://soen487a2backend.herokuapp.com/api/add_currency_history",
     (error, response) => {
       if (!error && response.statusCode == 200) {
       } else {
@@ -21,6 +21,41 @@ schedule.scheduleJob("0 0 * * *", () => {
       }
     }
   );
+});
+
+route.post("/add_currency_history_at", (req, res) => {
+  let date = req.query.date;
+
+  const rp = require("request-promise");
+  rp("https://api.exchangeratesapi.io/" + date).then((body) => {
+    console.log(body);
+    let jObj = JSON.parse(body);
+
+    let getSize = Object.keys(jObj.rates).length;
+
+    let rates = [];
+
+    for (let i = 0; i < getSize; i++) {
+      let rate = {};
+      rate.currencyType = Object.keys(jObj.rates)[i];
+      rate.currencyRate = Object.values(jObj.rates)[i];
+      rates.push(rate);
+    }
+
+    const date = jObj.date;
+    const newHistory = new History({
+      date,
+      rates,
+    });
+
+    newHistory
+      .save()
+      .then((item) => {
+        console.log("Good: " + item);
+        res.json(item);
+      })
+      .catch((err) => res.status(400).json("Error: " + err));
+  });
 });
 
 route.post("/add_currency_history", (req, res) => {
