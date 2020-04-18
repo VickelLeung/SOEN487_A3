@@ -27,6 +27,11 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10%;
+  border-radius: 10px;
+  margin: 2% 30%;
+  padding: 2%;
+  background: rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h2`

@@ -16,6 +16,8 @@ import SyncAltIcon from "@material-ui/icons/SyncAlt";
 
 import Currencies from "../services/Currencies";
 
+import Skeleton from "@material-ui/lab/Skeleton";
+
 import {
   fetchCurrency,
   calculateResults,
@@ -33,6 +35,7 @@ class ConvertCurrency extends PureComponent {
     isSaved: false, //save to cache if true
     listOfCurrencies: [],
     isDisplayResults: false,
+    isClicked: false,
   };
 
   componentDidMount = () => {
@@ -60,6 +63,7 @@ class ConvertCurrency extends PureComponent {
     this.setState({
       total: results,
       isDisplayResults: true,
+      isClicked: true,
     });
   };
 
@@ -138,17 +142,19 @@ class ConvertCurrency extends PureComponent {
               Calculate
             </SubmitBtn>
           </ContentContainer>
-          {this.state.isDisplayResults ? (
-            <Results
-              total={this.state.total}
-              toCurrencyVal={this.state.toCurrencyVal}
-              toCurrency={this.state.toCurrency}
-              fromCurrencyVal={this.state.fromCurrencyVal}
-              fromCurrency={this.state.fromCurrency}
-            />
-          ) : (
-            <div></div>
-          )}
+          {this.state.isClicked ? (
+            this.state.isDisplayResults ? (
+              <Results
+                total={this.state.total}
+                toCurrencyVal={this.state.toCurrencyVal}
+                toCurrency={this.state.toCurrency}
+                fromCurrencyVal={this.state.fromCurrencyVal}
+                fromCurrency={this.state.fromCurrency}
+              />
+            ) : (
+              <Skeleton style={{ height: "20vh" }} animation="wave" />
+            )
+          ) : null}
         </MainWrapper>
       </Wrapper>
     );
@@ -165,6 +171,10 @@ const Title = styled.h2`
 const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  border-radius: 10px;
+  margin: 2% 0;
+  padding: 2%;
+  background: rgba(0, 0, 0, 0.1);
 `;
 
 const ContentContainer = styled.div`
@@ -205,7 +215,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 50vh;
+  height: 60vh;
   text-align: center;
   background: linear-gradient(
       135deg,

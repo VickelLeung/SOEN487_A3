@@ -19,12 +19,16 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-import Skeleton from "@material-ui/lab/Skeleton";
+import Loader from "react-loader-spinner";
+
+// import Skeleton from "@material-ui/lab/Skeleton";
 
 class HistoricTable extends PureComponent {
   state = {
     rows: [],
     selectedDate: null,
+    isLoad: false,
+    isClicked: false,
   };
 
   componentDidMount = () => {
@@ -42,7 +46,11 @@ class HistoricTable extends PureComponent {
     if (this.state.selectedDate != null) {
       getHistoricData(result).then((results) => {
         if (results != undefined) {
-          this.setState({ rows: this.state.rows.concat(results.rates) });
+          this.setState({
+            rows: this.state.rows.concat(results.rates),
+            isLoad: true,
+            isClicked: true,
+          });
         } else {
           alert("Sorry there was no results found, please try again");
         }
@@ -72,60 +80,49 @@ class HistoricTable extends PureComponent {
           {/* {this.state.displayDate == "" ? null : (
             <p>The history from : {this.state.selectedDate}</p>
           )} */}
-          <TableWrapper component={Paper}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableR>
-                  <TableCell align="right">Currency Name</TableCell>
-                  <TableCell align="right">Before</TableCell>
-                  <TableCell align="right">Today</TableCell>
-                  <TableCell align="right">Changes</TableCell>
-                </TableR>
-              </TableHead>
-              <TableBody>
-                {this.state.rows == [] ? (
-                  <TableRow>
-                    <TableCell align="right">
-                      <Skeleton animation="wave" />
-                    </TableCell>
-                    <TableCell align="right">
-                      <Skeleton animation="wave" />
-                    </TableCell>
-                    <TableCell align="right">
-                      <Skeleton animation="wave" />
-                    </TableCell>
-                    <TableCell align="right">
-                      <Skeleton animation="wave" />
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  this.state.rows.map((row) => (
-                    <TableRow>
-                      <TableCell
-                        style={{ fontWeight: "bold" }}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.currencyType}
-                      </TableCell>
-                      <TableCell align="right">{row.currencyRate}</TableCell>
-                      <TableCell align="right">{row.now}</TableCell>
-                      <TableCell
-                        style={
-                          row.change >= 0
-                            ? { color: "green" }
-                            : { color: "red" }
-                        }
-                        align="right"
-                      >
-                        {row.change}
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </TableWrapper>
+          {this.state.isClicked ? (
+            this.state.isLoad ? (
+              <TableWrapper component={Paper}>
+                <Table stickyHeader aria-label="sticky table">
+                  <TableHead>
+                    <TableR>
+                      <TableCell align="right">Currency Name</TableCell>
+                      <TableCell align="right">Before</TableCell>
+                      <TableCell align="right">Today</TableCell>
+                      <TableCell align="right">Changes</TableCell>
+                    </TableR>
+                  </TableHead>
+                  <TableBody>
+                    {this.state.rows.map((row) => (
+                      <TableRow>
+                        <TableCell
+                          style={{ fontWeight: "bold" }}
+                          component="th"
+                          scope="row"
+                        >
+                          {row.currencyType}
+                        </TableCell>
+                        <TableCell align="right">{row.currencyRate}</TableCell>
+                        <TableCell align="right">{row.now}</TableCell>
+                        <TableCell
+                          style={
+                            row.change >= 0
+                              ? { color: "green" }
+                              : { color: "red" }
+                          }
+                          align="right"
+                        >
+                          {row.change}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableWrapper>
+            ) : (
+              <Loader type="Rings" color="black" height={100} width={100} />
+            )
+          ) : null}
         </Container>
       </div>
     );
