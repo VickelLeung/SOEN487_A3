@@ -138,12 +138,22 @@ class ConvertCurrency extends PureComponent {
                 </FromInput>
               </FormControl>
             </FormContainer>
-            <SubmitBtn onClick={this.convertCurrency} variant="contained">
+            <SubmitBtn
+              disabled={
+                !this.state.amount ||
+                !this.state.fromCurrency ||
+                !this.state.toCurrency
+              }
+              onClick={this.convertCurrency}
+              variant="contained"
+            >
               Calculate
             </SubmitBtn>
           </ContentContainer>
-          {this.state.isClicked ? (
-            this.state.isDisplayResults ? (
+          {this.state.isDisplayResults ? (
+            this.state.total == 0 ? (
+              <Skeleton style={{ height: "20vh" }} animation="wave" />
+            ) : (
               <Results
                 total={this.state.total}
                 toCurrencyVal={this.state.toCurrencyVal}
@@ -151,8 +161,6 @@ class ConvertCurrency extends PureComponent {
                 fromCurrencyVal={this.state.fromCurrencyVal}
                 fromCurrency={this.state.fromCurrency}
               />
-            ) : (
-              <Skeleton style={{ height: "20vh" }} animation="wave" />
             )
           ) : null}
         </MainWrapper>
@@ -197,7 +205,7 @@ const FromInput = styled(Select)`
 `;
 
 const SubmitBtn = styled(Button)`
-  marign: 3% 0;
+  margin: 3% 0;
   width: 30vw;
 `;
 

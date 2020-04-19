@@ -21,14 +21,12 @@ import {
 
 import Loader from "react-loader-spinner";
 
-// import Skeleton from "@material-ui/lab/Skeleton";
-
 class HistoricTable extends PureComponent {
   state = {
     rows: [],
     selectedDate: null,
+    displayDate: "",
     isLoad: false,
-    isClicked: false,
   };
 
   componentDidMount = () => {
@@ -46,10 +44,14 @@ class HistoricTable extends PureComponent {
     if (this.state.selectedDate != null) {
       getHistoricData(result).then((results) => {
         if (results != undefined) {
+          if (results == "Error") {
+            return alert("Error, try again");
+          }
+
           this.setState({
             rows: this.state.rows.concat(results.rates),
             isLoad: true,
-            isClicked: true,
+            displayDate: result,
           });
         } else {
           alert("Sorry there was no results found, please try again");
@@ -74,15 +76,19 @@ class HistoricTable extends PureComponent {
               onChange={this.handleDateChange}
             />
           </MuiPickersUtilsProvider>
-          <Button onClick={this.findDate}>Submit</Button>
+          <Button
+            disabled={!this.state.selectedDate}
+            variant="contained"
+            onClick={this.findDate}
+          >
+            Submit
+          </Button>
         </InputContainer>
         <Container>
-          {/* {this.state.displayDate == "" ? null : (
-            <p>The history from : {this.state.selectedDate}</p>
-          )} */}
-          {this.state.isClicked ? (
-            this.state.isLoad ? (
+          {this.state.isLoad ? (
+            this.state.rows ? (
               <TableWrapper component={Paper}>
+                <p>Date searched: {this.state.displayDate}</p>
                 <Table stickyHeader aria-label="sticky table">
                   <TableHead>
                     <TableR>

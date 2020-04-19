@@ -102,18 +102,22 @@ export const getHistoricData = async (date) => {
   );
 
   // res2.data;
+  console.log(res.data);
+  if (res.data.length > 0) {
+    let obj = res.data[0].rates;
 
-  let obj = res.data[0].rates;
+    console.log(res2.data[0].rates[0].currencyRate);
+    for (let i = 0; i < obj.length; i++) {
+      obj[i].now = res2.data[0].rates[i].currencyRate;
 
-  console.log(res2.data[0].rates[0].currencyRate);
-  for (let i = 0; i < obj.length; i++) {
-    obj[i].now = res2.data[0].rates[i].currencyRate;
+      let changes = 0;
+      changes = res2.data[0].rates[i].currencyRate - obj[i].currencyRate;
+      obj[i].change = changes.toFixed(4);
+    }
 
-    let changes = 0;
-    changes = res2.data[0].rates[i].currencyRate - obj[i].currencyRate;
-    obj[i].change = changes.toFixed(4);
+    console.log(obj);
+    return res.data[0];
+  } else {
+    return "Error";
   }
-
-  console.log(obj);
-  return res.data[0];
 };
