@@ -85,6 +85,7 @@ class ConvertCurrency extends PureComponent {
   render() {
     return (
       <Wrapper>
+        <h2>Welcome, {localStorage.getItem("email")}</h2>
         <MainWrapper>
           <ContentContainer>
             <Title>Currency Converter</Title>
@@ -180,7 +181,7 @@ const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  margin: 2% 0;
+  margin: 2% 15%;
   padding: 2%;
   background: rgba(0, 0, 0, 0.1);
 `;
@@ -221,9 +222,9 @@ const Names = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
-  height: 60vh;
+  height: 80vh;
   text-align: center;
   background: linear-gradient(
       135deg,

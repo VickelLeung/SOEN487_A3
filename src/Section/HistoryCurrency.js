@@ -8,19 +8,21 @@ import { HistoricTable } from "../component/HistoricTable/HistoricTable";
 class HistoryCurrency extends PureComponent {
   render() {
     return (
-      <div>
+      <Wrapper>
         <Container>
           <Title>History of Currency</Title>
           {/*  <ChartCurrency currency={this.props.currencyName} /> */}
 
           <HistoricTable />
         </Container>
-      </div>
+      </Wrapper>
     );
   }
 }
 
 export { HistoryCurrency };
+
+const Wrapper = styled.div``;
 
 const Container = styled.div`
   display: flex;
@@ -29,7 +31,7 @@ const Container = styled.div`
   align-items: center;
   margin-bottom: 10%;
   border-radius: 10px;
-  margin: 2% 30%;
+  margin: 2% 15%;
   padding: 2%;
   background: rgba(0, 0, 0, 0.1);
 `;

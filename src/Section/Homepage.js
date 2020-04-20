@@ -63,7 +63,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  height: 100vh;
+  height: 100%;
   text-align: center;
   border: 0.5px solid;
   flex-diretion: column;

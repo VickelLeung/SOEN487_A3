@@ -46,6 +46,7 @@ export default withRouter(Logout);
 const Title = styled.h2`
   font-size: 2em;
   color: white;
+  margin: 2% 2%;
 `;
 
 const Wrapper = styled.div`

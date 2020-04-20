@@ -23,7 +23,6 @@ function App() {
         "https://soen487a2backend.herokuapp.com/authenticate/logout",
         payload
       );
-
       localStorage.removeItem("email");
       localStorage.removeItem("password");
     };
@@ -31,7 +30,7 @@ function App() {
   };
 
   window.onload = function () {
-    window.localStorage.isMySessionActive = "true";
+    return;
   };
   return (
     <Wrapper>
