@@ -6,6 +6,11 @@ import Button from "@material-ui/core/Button";
 import { withRouter } from "react-router-dom";
 
 class Logout extends PureComponent {
+  componentWillUnmount = () => {
+    localStorage.removeItem("email");
+    localStorage.removeItem("password");
+  };
+
   logout = () => {
     let payload = {
       email: localStorage.getItem("email"),

@@ -10,8 +10,29 @@ import Logout from "./component/Logout/Logout";
 import { Footer } from "./Section/Footer";
 import { ScrollTo } from "react-scroll-to";
 import { Route, Link } from "react-router-dom";
+import Axios from "axios";
 
 function App() {
+  window.onbeforeunload = function (e) {
+    window.onunload = function () {
+      let payload = {
+        email: localStorage.getItem("email"),
+        password: localStorage.getItem("password"),
+      };
+      Axios.put(
+        "https://soen487a2backend.herokuapp.com/authenticate/logout",
+        payload
+      );
+
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+    };
+    return undefined;
+  };
+
+  window.onload = function () {
+    window.localStorage.isMySessionActive = "true";
+  };
   return (
     <Wrapper>
       <Route exact path="/">

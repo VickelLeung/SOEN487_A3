@@ -5,7 +5,7 @@ class Footer extends PureComponent {
   render() {
     return (
       <Wrapper>
-        <Container>Made by team 3 spring rolls with ♥</Container>
+        <Container>Made by three spring rolls with ♥</Container>
       </Wrapper>
     );
   }
