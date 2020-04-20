@@ -16,14 +16,22 @@ class Authentication extends PureComponent {
 
   login = () => {
     let payload = {
-      email: this.state.RegEmail,
-      password: this.state.RegPassword,
+      email: this.state.LogEmail,
+      password: this.state.LogPassword,
     };
 
-    Axios.put("https://financeshify.herokuapp.com/authenticate/login", payload)
+    Axios.put(
+      "https://soen487a2backend.herokuapp.com/authenticate/login",
+      payload
+    )
       .then((res) => {
         console.log(res);
-        this.props.history.push("/homepage");
+        if (res.data == "Success") {
+          localStorage.setItem("email", this.state.LogEmail);
+          localStorage.setItem("password", this.state.LogPassword);
+
+          this.props.history.push("/homepage");
+        }
       })
       .catch(() => {});
   };
@@ -35,7 +43,7 @@ class Authentication extends PureComponent {
     };
 
     Axios.post(
-      "https://financeshify.herokuapp.com/authenticate/register",
+      "https://soen487a2backend.herokuapp.com/authenticate/register",
       payload
     )
       .then(() => {})
