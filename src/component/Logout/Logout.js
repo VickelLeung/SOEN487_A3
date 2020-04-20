@@ -23,7 +23,14 @@ class Logout extends PureComponent {
   render() {
     return (
       <Wrapper>
-        <Button onClick={this.logout}>Logout</Button>
+        <Title>Currenshipfy</Title>
+
+        <Button
+          style={{ margin: "2% 2%", background: "red", color: "white" }}
+          onClick={this.logout}
+        >
+          Logout
+        </Button>
       </Wrapper>
     );
   }
@@ -31,8 +38,16 @@ class Logout extends PureComponent {
 
 export default withRouter(Logout);
 
+const Title = styled.h2`
+  font-size: 2em;
+  color: white;
+`;
+
 const Wrapper = styled.div`
   width: 100%;
-  background: rbgba(0, 0, 0, 0.5);
+  background: black;
   text-align: right;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;

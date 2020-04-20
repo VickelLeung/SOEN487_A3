@@ -4,15 +4,24 @@ import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import Axios from "axios";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 class Authentication extends PureComponent {
   state = {
     switch: true,
     LogEmail: "",
     LogPassword: "",
+    LogError: false,
     RegEmail: "",
     RegPassword: "",
+    RegSuccess: false,
+    RegError: false,
   };
+
+  Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
   login = () => {
     let payload = {
@@ -32,8 +41,11 @@ class Authentication extends PureComponent {
 
           this.props.history.push("/homepage");
         }
+        this.setState({ logError: true });
       })
-      .catch(() => {});
+      .catch(() => {
+        this.setState({ logError: true });
+      });
   };
 
   register = () => {
@@ -46,8 +58,18 @@ class Authentication extends PureComponent {
       "https://soen487a2backend.herokuapp.com/authenticate/register",
       payload
     )
-      .then(() => {})
-      .catch(() => {});
+      .then((res) => {
+        if (res.data.include("Success")) {
+          this.setState({ RegSuccess: true });
+        }
+
+        if (res.data.include("Error")) {
+          this.setState({ RegError: true });
+        }
+      })
+      .catch(() => {
+        this.setState({ RegError: true });
+      });
   };
 
   render() {
@@ -108,6 +130,43 @@ class Authentication extends PureComponent {
             </Button>
           </RegisterContainer>
         )}
+
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={this.state.logError}
+          autoHideDuration={1000}
+          onClose={() => {
+            this.setState({ logError: !this.state.logError });
+          }}
+        >
+          <MuiAlert severity="error" elevation={6} variant="filled">
+            Error, could not login user please try again.
+          </MuiAlert>
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={this.state.RegError}
+          autoHideDuration={3000}
+          onClose={() => {
+            this.setState({ RegError: !this.state.RegError });
+          }}
+        >
+          <MuiAlert severity="error" elevation={6} variant="filled">
+            Error, could not register user please try again.
+          </MuiAlert>
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={this.state.RegSuccess}
+          autoHideDuration={3000}
+          onClose={() => {
+            this.setState({ RegSuccess: !this.state.RegSuccess });
+          }}
+        >
+          <MuiAlert severity="error" elevation={6} variant="filled">
+            Successfully registered!
+          </MuiAlert>
+        </Snackbar>
       </Wrapper>
     );
   }
@@ -117,7 +176,6 @@ export default withRouter(Authentication);
 
 const Wrapper = styled.div`
   margin: 4% 0;
-  opacity: 0.4;
   background: white;
   border-radius: 10px;
 `;
