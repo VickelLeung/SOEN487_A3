@@ -47,7 +47,7 @@ users.post("/register", (req, res) => {
           userData
             .save()
             .then((item) => {
-              res.json({ item });
+              res.json("Success");
             })
             .catch((err) => res.status(400).json("Error: " + err));
         });
