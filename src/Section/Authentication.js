@@ -59,11 +59,11 @@ class Authentication extends PureComponent {
       payload
     )
       .then((res) => {
-        if (res.data.include("Success")) {
+        console.log(res);
+        if (res.data == "Success") {
+          console.log("good");
           this.setState({ RegSuccess: true });
-        }
-
-        if (res.data.include("Error")) {
+        } else if (res.data.include("Error")) {
           this.setState({ RegError: true });
         }
       })
@@ -163,7 +163,7 @@ class Authentication extends PureComponent {
             this.setState({ RegSuccess: !this.state.RegSuccess });
           }}
         >
-          <MuiAlert severity="error" elevation={6} variant="filled">
+          <MuiAlert severity="success" elevation={6} variant="filled">
             Successfully registered!
           </MuiAlert>
         </Snackbar>
