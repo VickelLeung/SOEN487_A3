@@ -5,6 +5,8 @@ import { bounce } from "react-animations";
 
 // import FacebookLogin from "react-facebook-login";
 
+import Authentication from "../Section/Authentication";
+
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 class Homepage extends PureComponent {
@@ -20,16 +22,10 @@ class Homepage extends PureComponent {
           <Description>
             Keep track of your currency and convert any currency on the fly
           </Description>
-          {/* <FacebookLogin
-            appId="832027567293623"
-            autoLoad={true}
-            fields="name,email,picture"
-            //onClick={componentClicked}
-            //callback={responseFacebook}
-          /> */}
+          <Authentication />
         </Container>
 
-        <ArrowIcon style={{ fontSize: 50 }} />
+        {/* <ArrowIcon style={{ fontSize: 50 }} /> */}
       </Wrapper>
     );
   }
@@ -43,13 +39,13 @@ export { Homepage };
 
 const bounceAnimation = keyframes`${bounce}`;
 
-const ArrowIcon = styled(ArrowDownwardIcon)`
-  position: absolute;
-  bottom: 6%;
-  color: white;
+// const ArrowIcon = styled(ArrowDownwardIcon)`
+//   position: absolute;
+//   bottom: 6%;
+//   color: white;
 
-  animation: infinite 3s ${bounceAnimation};
-`;
+//   animation: infinite 3s ${bounceAnimation};
+// `;
 
 const Title = styled.h2`
   color: white;
@@ -61,7 +57,10 @@ const Description = styled.div`
   color: white;
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const Wrapper = styled.div`
   height: 100vh;
