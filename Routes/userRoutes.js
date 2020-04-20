@@ -3,6 +3,7 @@ const users = express.Router();
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const User = require("../Model/user");
+var schedule = require("node-schedule");
 
 users.use(cors());
 
@@ -46,7 +47,7 @@ users.post("/register", (req, res) => {
           //create new user and save it
           userData
             .save()
-            .then((item) => {
+            .then(() => {
               res.json("Success");
             })
             .catch((err) => res.status(400).json("Error: " + err));
@@ -61,25 +62,25 @@ users.post("/register", (req, res) => {
 });
 
 //reset password
-users.put("/reset_password/:id", (req, res) => {
-  const id = req.params.id;
+// users.put("/reset_password/:id", (req, res) => {
+//   const id = req.params.id;
 
-  console.log(req.body.password);
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
-    let password = req.body.password;
-    password = hash;
+//   console.log(req.body.password);
+//   bcrypt.hash(req.body.password, 10, (err, hash) => {
+//     let password = req.body.password;
+//     password = hash;
 
-    console.log(password);
-    //update
-    User.updateOne({ _id: id }, { $set: { password: password } })
-      .then(() => {
-        res.send("Password reset for " + id);
-      })
-      .catch((err) => {
-        err.send(err);
-      });
-  });
-});
+//     console.log(password);
+//     //update
+//     User.updateOne({ _id: id }, { $set: { password: password } })
+//       .then(() => {
+//         res.send("Password reset for " + id);
+//       })
+//       .catch((err) => {
+//         err.send(err);
+//       });
+//   });
+// });
 
 users.put("/login", (req, res) => {
   User.findOne({
@@ -98,6 +99,21 @@ users.put("/login", (req, res) => {
             { $set: { isLoggedIn: true } }
           )
             .then(() => {
+              //auto reset isLoggedin to false
+              // schedule.scheduleJob(
+              //   "*/1 * * * * ",
+              //   () => {
+              //     console.log("testing...");
+              //     User.findOneAndUpdate(
+              //       {
+              //         email: req.body.email,
+              //       },
+              //       { $set: { isLoggedIn: false } }
+              //     );
+              //   },
+              //   5000
+              // );
+
               res.send("Success");
             })
             .catch(() => {
@@ -128,26 +144,5 @@ users.put("/logout", (req, res) => {
       res.send(err);
     });
 });
-
-// users.get("/profile", (req, res) => {
-//   var decoded = jwt.verify(
-//     req.headers["authorization"],
-//     process.env.SECRET_KEY
-//   );
-
-//   User.findOne({
-//     _id: decoded._id
-//   })
-//     .then(user => {
-//       if (user) {
-//         res.json(user);
-//       } else {
-//         res.send("User does not exist");
-//       }
-//     })
-//     .catch(err => {
-//       res.send("error: " + err);
-//     });
-// });
 
 module.exports = users;
