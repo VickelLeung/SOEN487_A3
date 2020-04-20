@@ -47,7 +47,7 @@ let Currencies = [
     {
       currencyName: "Swedish Krona",
       currencySymbol: "kr",
-      id: "RON"
+      id: "SEK"
     },
     {
       currencyName: "Indonesian Rupiah",
