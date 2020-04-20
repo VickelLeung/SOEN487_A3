@@ -32,6 +32,9 @@ app.use("/api", historyRoute);
 const latestRoute = require("./SystemCore/latestCurrencyAPI");
 app.use("/api", latestRoute);
 
+const userRoute = require("./Routes/userRoutes");
+app.use("/authenticate", userRoute);
+
 app.listen(port, () => {
   console.log("Server is running on port: " + port);
 });

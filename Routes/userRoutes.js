@@ -1,9 +1,153 @@
-const router = require("express").Router();
+const express = require("express");
+const users = express.Router();
+const cors = require("cors");
+const bcrypt = require("bcrypt");
+const User = require("../Model/user");
 
-router.route("/login").post((req, res) => {});
+users.use(cors());
 
-router.route("/logout").post((req, res) => {});
+process.env.SECRET_KEY = "secret";
 
-router.route("/signup").post((req, res) => {});
+//register a user
+users.post("/register", (req, res) => {
+  const today = new Date();
 
-module.exports = router;
+  let email = req.body.email;
+  let displayName = req.body.displayName;
+  let password = req.body.password;
+  let created = today;
+  let isLoggedIn = false;
+
+  if (email === "" || password === "") res.send("Error, empty parameters");
+
+  const userData = new User({
+    email,
+    password,
+    created,
+    isLoggedIn,
+  });
+
+  console.log("user: " + userData);
+
+  //verify if email exist
+  User.findOne({
+    email: req.body.email,
+  })
+    .then((user) => {
+      //if user doesn't exist
+      console.log("x: " + user);
+
+      console.log(!user);
+      if (!user) {
+        //encrypt password and hash it with 10 salts
+        bcrypt.hash(req.body.password, 10, (err, hash) => {
+          userData.password = hash;
+
+          //create new user and save it
+          userData
+            .save()
+            .then((item) => {
+              res.json({ item });
+            })
+            .catch((err) => res.status(400).json("Error: " + err));
+        });
+      } else {
+        res.json({ error: "User already exist" });
+      }
+    })
+    .catch((err) => {
+      res.send("Error: " + err);
+    });
+});
+
+//reset password
+users.put("/reset_password/:id", (req, res) => {
+  const id = req.params.id;
+
+  console.log(req.body.password);
+  bcrypt.hash(req.body.password, 10, (err, hash) => {
+    let password = req.body.password;
+    password = hash;
+
+    console.log(password);
+    //update
+    User.updateOne({ _id: id }, { $set: { password: password } })
+      .then(() => {
+        res.send("Password reset for " + id);
+      })
+      .catch((err) => {
+        err.send(err);
+      });
+  });
+});
+
+users.put("/login", (req, res) => {
+  User.findOne({
+    email: req.body.email,
+  })
+    .then((user) => {
+      //compare data if it is true
+      if (bcrypt.compareSync(req.body.password, user.password)) {
+        if (user.isLoggedIn) {
+          res.send("User already logged");
+        } else {
+          User.findOneAndUpdate(
+            {
+              email: req.body.email,
+            },
+            { $set: { isLoggedIn: true } }
+          )
+            .then(() => {
+              res.send("Success");
+            })
+            .catch(() => {
+              res.send("Error");
+            });
+        }
+      } else {
+        //password don't match
+        res.json({ error: "Error, password does not match" });
+      }
+    })
+    .catch((err) => {
+      res.send("Error: " + err);
+    });
+});
+
+users.put("/logout", (req, res) => {
+  User.findOneAndUpdate(
+    {
+      email: req.body.email,
+    },
+    { $set: { isLoggedIn: false } }
+  )
+    .then(() => {
+      res.send("Logged out");
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
+// users.get("/profile", (req, res) => {
+//   var decoded = jwt.verify(
+//     req.headers["authorization"],
+//     process.env.SECRET_KEY
+//   );
+
+//   User.findOne({
+//     _id: decoded._id
+//   })
+//     .then(user => {
+//       if (user) {
+//         res.json(user);
+//       } else {
+//         res.send("User does not exist");
+//       }
+//     })
+//     .catch(err => {
+//       res.send("error: " + err);
+//     });
+// });
+
+module.exports = users;
