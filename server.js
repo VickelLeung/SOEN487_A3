@@ -29,10 +29,10 @@ app.get("/", function (req, res) {
 });
 
 // routes for end points
-const historyRoute = require("./SystemCore/HistoryCurrencyAPI");
+const historyRoute = require("./CurrencyAPI/HistoryCurrencyAPI");
 app.use("/api", historyRoute);
 
-const latestRoute = require("./SystemCore/latestCurrencyAPI");
+const latestRoute = require("./CurrencyAPI/latestCurrencyAPI");
 app.use("/api", latestRoute);
 
 const userRoute = require("./Routes/userRoutes");
