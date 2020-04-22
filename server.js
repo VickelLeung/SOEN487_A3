@@ -10,11 +10,13 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// verify database credential
 mongoose.connect(process.env.uri, {
   useNewUrlParser: true,
   useCreateIndex: true,
 });
 
+// connect to database
 const connection = mongoose.connection;
 
 connection.once("open", () => {
@@ -23,9 +25,10 @@ connection.once("open", () => {
 
 // Test server functions
 app.get("/", function (req, res) {
-  res.send("hello world : " + process.env.apikey);
+  res.send("Welcome to Currenshipfy");
 });
 
+// routes for end points
 const historyRoute = require("./SystemCore/HistoryCurrencyAPI");
 app.use("/api", historyRoute);
 

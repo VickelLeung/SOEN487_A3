@@ -23,6 +23,7 @@ schedule.scheduleJob("0 0 * * *", () => {
   );
 });
 
+// add currency at a specific date
 route.post("/add_currency_history_at", (req, res) => {
   let date = req.query.date;
 
@@ -58,6 +59,7 @@ route.post("/add_currency_history_at", (req, res) => {
   });
 });
 
+// add the latest history currency
 route.post("/add_currency_history", (req, res) => {
   console.log("inside history");
 
@@ -76,16 +78,12 @@ route.post("/add_currency_history", (req, res) => {
       rate.currencyRate = Object.values(jObj.rates)[i];
       rates.push(rate);
     }
-    // console.log(rates);
 
     const date = jObj.date;
-    // console.log("date: " + date);
     const newHistory = new History({
       date,
       rates,
     });
-    // console.log("r: " + rates);
-    // console.log("N: " + newHistory.date + " " + newHistory.rates);
 
     newHistory
       .save()
@@ -97,6 +95,7 @@ route.post("/add_currency_history", (req, res) => {
   });
 });
 
+// get a currency at specific date
 route.get("/currency_history_date", (req, res) => {
   const date = req.query.date;
   console.log("test" + date);
@@ -113,6 +112,7 @@ route.get("/currency_history_date", (req, res) => {
     });
 });
 
+// get all history currency
 route.get("/currency_history", (req, res) => {
   const currency = req.query.currency;
   console.log("test" + currency);

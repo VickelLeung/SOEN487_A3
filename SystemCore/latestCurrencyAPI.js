@@ -22,9 +22,8 @@ schedule.scheduleJob("0 0 * * *", () => {
   );
 });
 
+// add the latest currency
 route.put("/add_currency_latest", (req, res) => {
-  console.log("inside latest");
-
   const rp = require("request-promise");
   rp(process.env.apiLink).then((body) => {
     let jObj = JSON.parse(body);
@@ -39,7 +38,6 @@ route.put("/add_currency_latest", (req, res) => {
       rate.currencyRate = Object.values(jObj.rates)[i];
       rates.push(rate);
     }
-    console.log(rates);
 
     const newLatest = Latest({
       rates,
@@ -51,9 +49,9 @@ route.put("/add_currency_latest", (req, res) => {
   });
 });
 
+// get the latest currency
 route.get("/currency_latest", (req, res) => {
   const type = req.query.type;
-  console.log("test" + type);
 
   Latest.find(
     {},
@@ -66,7 +64,6 @@ route.get("/currency_latest", (req, res) => {
     }
   )
     .then((results) => {
-      console.log("resuls: ");
       res.json(results);
     })
     .catch((err) => {
@@ -74,13 +71,13 @@ route.get("/currency_latest", (req, res) => {
     });
 });
 
+// get all the latest currency
 route.get("/get_all_currency_latest", (req, res) => {
   const type = req.query.type;
   console.log("test" + type);
 
   Latest.find()
     .then((results) => {
-      console.log("resuls: ");
       res.json(results);
     })
     .catch((err) => {
