@@ -13,7 +13,6 @@ users.post("/register", (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
   let created = today;
-  let isLoggedIn = false;
 
   if (email === "" || password === "") res.send("Error, empty parameters");
 
@@ -21,7 +20,6 @@ users.post("/register", (req, res) => {
     email,
     password,
     created,
-    isLoggedIn,
   });
 
   // verify if email exist
