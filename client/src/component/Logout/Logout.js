@@ -6,25 +6,6 @@ import Button from "@material-ui/core/Button";
 import { withRouter } from "react-router-dom";
 
 class Logout extends PureComponent {
-  componentWillUnmount = () => {
-    localStorage.removeItem("email");
-    localStorage.removeItem("password");
-  };
-
-  logout = () => {
-    let payload = {
-      email: localStorage.getItem("email"),
-      password: localStorage.getItem("password"),
-    };
-    Axios.put(
-      "https://soen487a2backend.herokuapp.com/authenticate/logout",
-      payload
-    )
-      .then((res) => {
-        this.props.history.push("/");
-      })
-      .catch(() => {});
-  };
   render() {
     return (
       <Wrapper>
@@ -32,7 +13,7 @@ class Logout extends PureComponent {
 
         <Button
           style={{ margin: "2% 2%", background: "red", color: "white" }}
-          onClick={this.logout}
+          onClick={() => this.props.logout()}
         >
           Logout
         </Button>

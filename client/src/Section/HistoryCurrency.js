@@ -3,16 +3,12 @@ import styled from "styled-components";
 
 import { HistoricTable } from "../component/HistoricTable/HistoricTable";
 
-// import { ChartCurrency } from ".././component/ChartCurrency/ChartCurrency";
-
 class HistoryCurrency extends PureComponent {
   render() {
     return (
       <Wrapper>
         <Container>
           <Title>History of Currency</Title>
-          {/*  <ChartCurrency currency={this.props.currencyName} /> */}
-
           <HistoricTable />
         </Container>
       </Wrapper>

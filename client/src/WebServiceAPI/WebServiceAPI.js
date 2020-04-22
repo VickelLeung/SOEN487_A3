@@ -1,5 +1,6 @@
 import Axios from "axios";
 
+// fetch two currency
 export const fetchCurrency = async (fromCurrency, toCurrency) => {
   let res = await Axios.get(
     "https://soen487a2backend.herokuapp.com/api/currency_latest?type=" +
@@ -21,11 +22,13 @@ export const fetchCurrency = async (fromCurrency, toCurrency) => {
   return obj;
 };
 
+// calculate the results of currency conversion
 export const calculateResults = (amount, fromCurrency, toCurrency) => {
   let results = (amount / fromCurrency) * toCurrency;
   return results.toFixed(2);
 };
 
+// find the equivalent of one dollar
 export const findEquivalentDollar = (fromCurrency, toCurrency) => {
   let results = (1 / fromCurrency) * toCurrency;
   console.log("to: " + toCurrency + "from: " + fromCurrency);
@@ -33,6 +36,7 @@ export const findEquivalentDollar = (fromCurrency, toCurrency) => {
   return results.toFixed(2);
 };
 
+// get a list of history of all currency
 export const getHistoricData = async (date) => {
   let res = await Axios.get(
     "https://soen487a2backend.herokuapp.com/api/currency_history_date?date=" +
@@ -62,6 +66,11 @@ export const getHistoricData = async (date) => {
   }
 };
 
+// verify if user is authenticated
+export const getAuth = () => {
+  return sessionStorage.getItem("isLoggedIn");
+};
+
 export const saveUserHistory = (amount, fromCurrency, toCurrency, total) => {
   let obj = {};
   obj.amount = amount;
@@ -70,5 +79,4 @@ export const saveUserHistory = (amount, fromCurrency, toCurrency, total) => {
   obj.total = total;
   console.log(obj);
   localStorage.setItem("user_history", obj);
-  return;
 };

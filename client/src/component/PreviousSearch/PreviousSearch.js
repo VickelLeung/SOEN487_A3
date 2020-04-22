@@ -9,10 +9,10 @@ class PreviousSearch extends PureComponent {
   };
 
   componentDidUpdate = () => {
-    let get_history = localStorage.getItem("user_history");
-    console.log(get_history);
+    // let get_history = localStorage.getItem("user_history");
+    // console.log(get_history);
     // if (get_history.length > 0) {
-    this.setState({ data: get_history });
+    // this.setState({ data: get_history });
     // }
   };
 
