@@ -37,6 +37,7 @@ class Authentication extends PureComponent {
         console.log(res);
         if (res.data == "Success") {
           sessionStorage.setItem("isLoggedIn", "true");
+          sessionStorage.setItem("email", this.state.LogEmail);
 
           this.props.history.push("/homepage");
         }

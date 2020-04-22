@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
+import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -94,17 +95,19 @@ class ConvertCurrency extends PureComponent {
   render() {
     return (
       <Wrapper>
-        <h2>Welcome, {localStorage.getItem("email")}</h2>
+        <h2>Welcome, {sessionStorage.getItem("email")}</h2>
         <MainWrapper>
           <ContentContainer>
             <Title>Currency Converter</Title>
 
-            <TextField
+            <Input
               label="Amount"
               type="number"
               min="0"
               onChange={(e) => {
-                this.setState({ amount: e.target.value });
+                if (e.target.value > 0) {
+                  this.setState({ amount: e.target.value });
+                }
               }}
             />
             <FormContainer>

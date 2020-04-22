@@ -11,7 +11,10 @@ class PageNotFound extends Component {
       <Wrapper>
         <TitleContainers>
           <Title>ERROR! How did you get here?</Title>
-          <SubTitle>404 Page not found</SubTitle>
+          <SubTitle>
+            404 Page not found <br />
+            you should leave before the wizard gets mad
+          </SubTitle>
           <Button variant="outlined">
             <Link style={{ textDecoration: "none", color: "black" }} to="/">
               Go back home
@@ -19,7 +22,9 @@ class PageNotFound extends Component {
           </Button>
         </TitleContainers>
         <ImageContainer>
-          <Images src={NotFound} />
+          <Gif>
+            <IFrame src="https://giphy.com/embed/nlcJ4MkoG3Tri"></IFrame>
+          </Gif>
         </ImageContainer>
       </Wrapper>
     );
@@ -29,7 +34,7 @@ class PageNotFound extends Component {
 export { PageNotFound };
 
 const Wrapper = styled.div`
-  height: 100vh;
+  height: 100%;
 `;
 
 const TitleContainers = styled.div`
@@ -60,4 +65,17 @@ const Images = styled.img`
   width: 50vw;
   border-radius: 5%;
   margin: 2% 0;
+`;
+
+const Gif = styled.div`
+  border: 1px solid black;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 2%;
+`;
+
+const IFrame = styled.iframe`
+  border: none;
+  height: 40vh;
+  width: 40vw;
 `;

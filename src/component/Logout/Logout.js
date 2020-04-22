@@ -11,12 +11,12 @@ class Logout extends PureComponent {
       <Wrapper>
         <Title>Currenshipfy</Title>
 
-        <Button
+        <Btn
           style={{ margin: "2% 2%", background: "red", color: "white" }}
           onClick={() => this.props.logout()}
         >
           Logout
-        </Button>
+        </Btn>
       </Wrapper>
     );
   }
@@ -37,4 +37,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`;
+
+const Btn = styled(Button)`
+  &:hover {
+    filter: brightness(150%);
+  }
 `;
