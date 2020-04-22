@@ -13,31 +13,17 @@ import { Route, Link } from "react-router-dom";
 import Axios from "axios";
 
 function App() {
-  window.onbeforeunload = function (e) {
-    window.onunload = function () {
-      let payload = {
-        email: localStorage.getItem("email"),
-        password: localStorage.getItem("password"),
-      };
-      Axios.put(
-        "https://soen487a2backend.herokuapp.com/authenticate/logout",
-        payload
-      );
-      localStorage.removeItem("email");
-      localStorage.removeItem("password");
-    };
-    return undefined;
-  };
+  // window.onload = function () {
+  //   return;
+  // };
+  let isLogged = sessionStorage.getItem("isLoggedIn");
 
-  window.onload = function () {
-    return;
-  };
   return (
     <Wrapper>
       <Route exact path="/">
         <Homepage />
       </Route>
-      <Route exact path="/homepage">
+      <Route exact path={isLogged ? "/homepage" : "/"}>
         <Logout />
         <ConvertCurrency />
         <HistoryCurrency />

@@ -61,3 +61,14 @@ export const getHistoricData = async (date) => {
     return "Error";
   }
 };
+
+export const saveUserHistory = (amount, fromCurrency, toCurrency, total) => {
+  let obj = {};
+  obj.amount = amount;
+  obj.fromCurrency = fromCurrency;
+  obj.toCurrency = toCurrency;
+  obj.total = total;
+  console.log(obj);
+  localStorage.setItem("user_history", obj);
+  return;
+};

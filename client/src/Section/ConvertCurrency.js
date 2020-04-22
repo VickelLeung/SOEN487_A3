@@ -18,9 +18,12 @@ import Currencies from "../services/Currencies";
 
 import Skeleton from "@material-ui/lab/Skeleton";
 
+import { PreviousSearch } from "../component/PreviousSearch/PreviousSearch";
+
 import {
   fetchCurrency,
   calculateResults,
+  saveUserHistory,
 } from "../WebServiceAPI/WebServiceAPI";
 
 class ConvertCurrency extends PureComponent {
@@ -65,6 +68,12 @@ class ConvertCurrency extends PureComponent {
       isDisplayResults: true,
       isClicked: true,
     });
+    saveUserHistory(
+      this.state.amount,
+      this.state.fromCurrency,
+      this.state.toCurrency,
+      this.state.total
+    );
   };
 
   handleFromCurrency = (e) => {
@@ -165,6 +174,7 @@ class ConvertCurrency extends PureComponent {
             )
           ) : null}
         </MainWrapper>
+        <PreviousSearch />
       </Wrapper>
     );
   }

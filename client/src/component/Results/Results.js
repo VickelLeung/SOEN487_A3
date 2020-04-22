@@ -14,17 +14,17 @@ const Results = (props) => {
     <Wrapper>
       <Card variant="outlined">
         <CardContent>
-          <Typography gutterBottom>
+          <Typography variant="h6" component="h2">
+            1 {props.fromCurrency} ={" "}
+            {findEquivalentDollar(props.fromCurrencyVal, props.toCurrencyVal)}{" "}
+            {props.toCurrency}
+          </Typography>
+          <Typography variant="h5" gutterBottom>
             <Res>
               {props.total}
               {getSymbolFromCurrency(props.toCurrency)}
             </Res>{" "}
             in {props.toCurrency}
-          </Typography>
-          <Typography variant="h5" component="h2">
-            1 {props.fromCurrency} ={" "}
-            {findEquivalentDollar(props.fromCurrencyVal, props.toCurrencyVal)}{" "}
-            {props.toCurrency}
           </Typography>
         </CardContent>
       </Card>
