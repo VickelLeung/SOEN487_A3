@@ -73,9 +73,6 @@ route.get("/currency_latest", (req, res) => {
 
 // get all the latest currency
 route.get("/get_all_currency_latest", (req, res) => {
-  const type = req.query.type;
-  console.log("test" + type);
-
   Latest.find()
     .then((results) => {
       res.json(results);

@@ -52,7 +52,6 @@ route.post("/add_currency_history_at", (req, res) => {
     newHistory
       .save()
       .then((item) => {
-        console.log("Good: " + item);
         res.json(item);
       })
       .catch((err) => res.status(400).json("Error: " + err));
@@ -61,11 +60,8 @@ route.post("/add_currency_history_at", (req, res) => {
 
 // add the latest history currency
 route.post("/add_currency_history", (req, res) => {
-  console.log("inside history");
-
   const rp = require("request-promise");
   rp(process.env.apiLink).then((body) => {
-    console.log(body);
     let jObj = JSON.parse(body);
 
     let getSize = Object.keys(jObj.rates).length;
@@ -88,7 +84,6 @@ route.post("/add_currency_history", (req, res) => {
     newHistory
       .save()
       .then((item) => {
-        console.log("Good: " + item);
         res.json(item);
       })
       .catch((err) => res.status(400).json("Error: " + err));
@@ -98,13 +93,11 @@ route.post("/add_currency_history", (req, res) => {
 // get a currency at specific date
 route.get("/currency_history_date", (req, res) => {
   const date = req.query.date;
-  console.log("test" + date);
 
   History.find({
     date: date,
   })
     .then((results) => {
-      console.log("good: " + results);
       res.json(results);
     })
     .catch((err) => {
@@ -115,7 +108,6 @@ route.get("/currency_history_date", (req, res) => {
 // get all history currency
 route.get("/currency_history", (req, res) => {
   const currency = req.query.currency;
-  console.log("test" + currency);
 
   History.find({
     rates: {
@@ -125,7 +117,6 @@ route.get("/currency_history", (req, res) => {
     },
   })
     .then((results) => {
-      console.log("good: " + results);
       res.json(results);
     })
     .catch((err) => {
