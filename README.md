@@ -12,12 +12,14 @@ https://soen487a2backend.herokuapp.com/
 Method: [GET]
 https://soen487a2backend.herokuapp.com/api/currency_history?currency=[type of currency]
 
+
+*API to get the history of a currency by specific date.
 Method: [GET]
 Syntax: https://soen487a2backend.herokuapp.com/api/currency_history_date?date=[YYYY-MM-DD]
 Example: https://soen487a2backend.herokuapp.com/api/currency_history_date?date=2020-04-01
 
-*API to get the history of a currency by specific date.
-Method: [GET]
+*API to Add the history of a currency by specific date.
+Method: [POST]
 Syntax: https://soen487a2backend.herokuapp.com/api/add_currency_history_date?date=[YYYY-MM-DD]
 example: https://soen487a2backend.herokuapp.com/api/add_currency_history_date?date=2020-04-01
 
