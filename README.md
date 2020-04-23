@@ -10,11 +10,16 @@ https://soen487a2backend.herokuapp.com/
 #### To use the API
 *API to convert one currency to another, it returns a value.
 Method: [GET]
-https://soen487a2backend.herokuapp.com/api/currency_history
+https://soen487a2backend.herokuapp.com/api/currency_history?currency=[type of currency]
+
+Method: [GET]
+Syntax: https://soen487a2backend.herokuapp.com/api/currency_history_date?date=[YYYY-MM-DD]
+Example: https://soen487a2backend.herokuapp.com/api/currency_history_date?date=2020-04-01
 
 *API to get the history of a currency by specific date.
 Method: [GET]
-https://soen487a2backend.herokuapp.com/api/add_currency_history_date?date=[YYYY-MM-DD]
+Syntax: https://soen487a2backend.herokuapp.com/api/add_currency_history_date?date=[YYYY-MM-DD]
+example: https://soen487a2backend.herokuapp.com/api/add_currency_history_date?date=[2020-04-01]
 
 #### To download the backend and run on local machine
 1. To run the backend, simply go to the backend folder and download all files.
