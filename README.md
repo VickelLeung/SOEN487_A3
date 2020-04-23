@@ -8,9 +8,14 @@ Here is a link for the demo website https://financeshify.herokuapp.com/
 https://soen487a2backend.herokuapp.com/
 
 #### To use the API
-*API to convert one currency to another, it returns a value.
+*API to get a specific latest currency.
+https://soen487a2backend.herokuapp.com/api/currency_latest?type=[Currency Type]
+https://soen487a2backend.herokuapp.com/api/currency_latest?type=USD
+
+*API to get the all latest currency.
 Method: [GET]
-https://soen487a2backend.herokuapp.com/api/currency_history?currency=[type of currency]
+https://soen487a2backend.herokuapp.com/api/get_all_currency_latest?currency=[Currency type]
+https://soen487a2backend.herokuapp.com/api/get_all_currency_latest?currency=USD
 
 
 *API to get the history of a currency by specific date.
