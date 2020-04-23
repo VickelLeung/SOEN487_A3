@@ -8,7 +8,7 @@ Here is a link for the demo website https://financeshify.herokuapp.com/
 https://soen487a2backend.herokuapp.com/
 
 #### To use the API
-*API to get a specific latest currency.
+*API to get a specific latest currency. <br />
 https://soen487a2backend.herokuapp.com/api/currency_latest?type=[Currency Type]
 https://soen487a2backend.herokuapp.com/api/currency_latest?type=USD
 
