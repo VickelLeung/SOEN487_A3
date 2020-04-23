@@ -31,8 +31,8 @@ Example: https://soen487a2backend.herokuapp.com/api/add_currency_history_date?da
 1. To run the backend, simply go to the backend folder and download all files.
 2. After downloading files, you will need to go to make a .env file to store your credentials
   2.1. note: you .env file should looke like this, 
-  { uri: [MongodDB credentials],
-    apiLink: [https://exchangeratesapi.io/]
+  { uri: <username:password (MongodDB credentials)>,
+    apiLink: https://exchangeratesapi.io/
   }
   
   Reference for api : https://exchangeratesapi.io/
