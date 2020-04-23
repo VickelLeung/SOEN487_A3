@@ -29,7 +29,6 @@ route.post("/add_currency_history_at", (req, res) => {
 
   const rp = require("request-promise");
   rp("https://api.exchangeratesapi.io/" + date).then((body) => {
-    console.log(body);
     let jObj = JSON.parse(body);
 
     let getSize = Object.keys(jObj.rates).length;
