@@ -19,7 +19,7 @@ Example: https://soen487a2backend.herokuapp.com/api/currency_history_date?date=2
 *API to get the history of a currency by specific date.
 Method: [GET]
 Syntax: https://soen487a2backend.herokuapp.com/api/add_currency_history_date?date=[YYYY-MM-DD]
-example: https://soen487a2backend.herokuapp.com/api/add_currency_history_date?date=[2020-04-01]
+example: https://soen487a2backend.herokuapp.com/api/add_currency_history_date?date=2020-04-01
 
 #### To download the backend and run on local machine
 1. To run the backend, simply go to the backend folder and download all files.
