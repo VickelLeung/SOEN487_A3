@@ -19,8 +19,6 @@ import Currencies from "../services/Currencies";
 
 import Skeleton from "@material-ui/lab/Skeleton";
 
-import { PreviousSearch } from "../component/PreviousSearch/PreviousSearch";
-
 import {
   fetchCurrency,
   calculateResults,
@@ -177,7 +175,6 @@ class ConvertCurrency extends PureComponent {
             )
           ) : null}
         </MainWrapper>
-        <PreviousSearch />
       </Wrapper>
     );
   }

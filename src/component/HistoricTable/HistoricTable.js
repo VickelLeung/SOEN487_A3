@@ -65,6 +65,7 @@ class HistoricTable extends PureComponent {
       <div>
         <InputContainer>
           <span>Please choose a date</span>
+          <span>*Note: only weekdays can be retrieved</span>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableToolbar
