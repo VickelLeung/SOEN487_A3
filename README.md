@@ -1,7 +1,7 @@
 # SOEN487_A3
 
-## demo website
-Here is a link for the demo website https://financeshify.herokuapp.com/
+## Demo website
+Here is a link for the demo website https://currenshipfy.herokuapp.com/
 
 ## How to run the backend
 ### Demo website for the backend
